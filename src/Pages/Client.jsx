@@ -132,11 +132,13 @@ export default function Clients() {
       fetchClients();
     } catch (err) {
       console.error(err);
-        Swal.fire({
+      Swal.fire({
         title: "Email already exists",
         icon: "warning",
         draggable: true
       });
+      setForm({ name: "", phone: "", email: "", location: "", image: null });
+
     } finally {
       setLoading(false);
     }
