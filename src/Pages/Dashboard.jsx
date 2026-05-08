@@ -539,7 +539,7 @@ export default function Dashboard() {
 
         @media (max-width: 1024px) {
           .db-stats-grid {
-            grid-template-columns:1 fr;
+            grid-template-columns: 1fr;
           }
         }
       `}</style>
