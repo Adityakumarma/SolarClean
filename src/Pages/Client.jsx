@@ -132,7 +132,11 @@ export default function Clients() {
       fetchClients();
     } catch (err) {
       console.error(err);
-      alert("Failed to add client");
+        Swal.fire({
+        title: "Email already exists",
+        icon: "warning",
+        draggable: true
+      });
     } finally {
       setLoading(false);
     }
