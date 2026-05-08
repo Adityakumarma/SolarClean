@@ -11,6 +11,7 @@ import LandingPage from './Pages/LandingPage'
 
 const Layout = ({ children }) => {
   const location = useLocation();
+
   const isLanding = location.pathname === '/';
 
   if (isLanding) {
@@ -21,6 +22,69 @@ const Layout = ({ children }) => {
       </>
     );
   }
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
+      }}
+    >
+
+      <style>{`
+        .app-layout-body {
+          display: flex;
+          flex: 1;
+          overflow: hidden;
+        }
+
+        .app-layout-sidebar {
+          display: block;
+        }
+
+        @media (max-width: 768px) {
+
+          .app-layout-body {
+            flex-direction: column;
+            overflow: auto;
+          }
+
+          .app-layout-sidebar {
+            display: none;
+          }
+
+          .app-layout-main {
+            overflow: visible !important;
+            width: 100%;
+          }
+        }
+      `}</style>
+
+      <Navbar />
+
+      <div className="app-layout-body">
+
+        <div className="app-layout-sidebar">
+          <Sidebar />
+        </div>
+
+        <main
+          className="app-layout-main"
+          style={{
+            flex: 1,
+            overflowY: 'auto',
+            background: '#f1f5f9'
+          }}
+        >
+          {children}
+        </main>
+
+      </div>
+
+    </div>
+  );
+};
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
