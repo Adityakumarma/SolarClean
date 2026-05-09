@@ -48,50 +48,6 @@ export default function AdvancedDashboard() {
         }));
     }, [teams]);
 
-    const clientTaskChart = useMemo(() => {
-        const clientMap = {};
-        tasks.forEach(task => {
-            const cName = task.client?.name || "Unknown";
-            if (!clientMap[cName]) clientMap[cName] = 0;
-            clientMap[cName]++;
-        });
-        return Object.keys(clientMap).map(key => ({
-            name: key,
-            tasks: clientMap[key]
-        })).sort((a, b) => b.tasks - a.tasks).slice(0, 5);
-    }, [tasks]);
-
-
-
-    const timelineChart = useMemo(() => {
-        const days = [];
-        for (let i = 0; i < 7; i++) {
-            const d = new Date();
-            d.setDate(d.getDate() + i);
-            days.push({
-                dateFull: d,
-                dateStr: d.toLocaleDateString('en-US', { weekday: 'short' }),
-                total: 0,
-                pending: 0,
-                waiting: 0
-            });
-        }
-
-        tasks.forEach(task => {
-            if (task.nextCleaning) {
-                const d = new Date(task.nextCleaning);
-                days.forEach(day => {
-                    if (d.getDate() === day.dateFull.getDate() && d.getMonth() === day.dateFull.getMonth() && d.getFullYear() === day.dateFull.getFullYear()) {
-                        day.total++;
-                        if (task.status === "pending") day.pending++;
-                        if (task.status === "waiting") day.waiting++;
-                    }
-                });
-            }
-        });
-
-        return days.map(d => ({ name: d.dateStr, total: d.total, pending: d.pending, waiting: d.waiting }));
-    }, [tasks]);
 
     const dueTasks = useMemo(() => {
 
