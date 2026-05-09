@@ -98,10 +98,6 @@ export default function Sidebar() {
         <LineChart size={20} /> Advanced Dashboard
       </Link>
 
-      <Link to="/tasks" className={`sb-nav-item ${path === '/tasks' ? 'active' : ''}`}>
-        <ClipboardList size={20} /> Tasks
-      </Link>
-
       <Link to="/clients" className={`sb-nav-item ${path === '/clients' ? 'active' : ''}`}>
         <Building2 size={20} /> Clients
       </Link>
@@ -109,6 +105,11 @@ export default function Sidebar() {
       <Link to="/teams" className={`sb-nav-item ${path === '/teams' ? 'active' : ''}`}>
         <Users size={20} /> Teams
       </Link>
+
+      <Link to="/tasks" className={`sb-nav-item ${path === '/tasks' ? 'active' : ''}`}>
+        <ClipboardList size={20} /> Tasks
+      </Link>
+
 
       <div style={{ flex: 1 }}></div>
 
