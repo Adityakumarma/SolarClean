@@ -323,7 +323,7 @@ export default function Clients() {
         .cl-btn-confirm:hover { background: #15803d; }
 
         .cl-btn-view {
-          background: #ffffff; color: #0F172A; border: 0.5px solid #ffffff;
+          background: #f1f5f9; color: #0F172A; border: 0.5px solid #e2e8f0;
           padding: 0.5rem 1rem; border-radius: 6px;
           font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
           cursor: pointer; transition: background 0.15s; width: 100%;
