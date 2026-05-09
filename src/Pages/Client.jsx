@@ -607,12 +607,15 @@ export default function Clients() {
                   </div>
                 ))}
 
-           {tasks
+    {tasks
   .filter(
     (task) =>
       task.client?._id === c._id &&
       task.jobCard &&
-      task.status === "waiting"
+      (
+        task.status === "waiting" ||
+        task.status === "completed"
+      )
   )
   .map((task) => (
     <div
