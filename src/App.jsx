@@ -1,5 +1,5 @@
-import React from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Route, Routes, useLocation, Navigate } from 'react-router-dom'
 import Navbar from './Components/Navbar'
 import Sidebar from './Components/Sidebar'
 import Tasks from './Pages/Tasks'
@@ -11,7 +11,6 @@ import LandingPage from './Pages/LandingPage'
 
 const Layout = ({ children }) => {
   const location = useLocation();
-
   const isLanding = location.pathname === '/';
 
   if (isLanding) {
@@ -24,78 +23,60 @@ const Layout = ({ children }) => {
   }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh'
-      }}
-    >
-
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <style>{`
         .app-layout-body {
           display: flex;
           flex: 1;
           overflow: hidden;
         }
-
-        .app-layout-sidebar {
-          display: block;
-        }
-
         @media (max-width: 768px) {
-
           .app-layout-body {
             flex-direction: column;
             overflow: auto;
           }
-
-          .app-layout-sidebar {
-            display: none;
-          }
-
           .app-layout-main {
             overflow: visible !important;
-            width: 100%;
           }
         }
       `}</style>
-
       <Navbar />
-
       <div className="app-layout-body">
-
-        <div className="app-layout-sidebar">
-          <Sidebar />
-        </div>
-
-        <main
-          className="app-layout-main"
-          style={{
-            flex: 1,
-            overflowY: 'auto',
-            background: '#f1f5f9'
-          }}
-        >
+        <Sidebar />
+        <main className="app-layout-main" style={{ flex: 1, overflowY: 'auto', background: '#f1f5f9' }}>
           {children}
         </main>
-
       </div>
-
     </div>
   );
 };
 
+const ProtectedRoute = ({ isAuthenticated, children }) => {
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
+};
+
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return sessionStorage.getItem('isAdminLoggedIn') === 'true';
+  });
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+    sessionStorage.setItem('isAdminLoggedIn', 'true');
+  };
+
   return (
     <Layout>
       <Routes>
-        <Route path='/' element={<LandingPage />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/advanced-dashboard' element={<AdvancedDashboard />} />
-        <Route path='/tasks' element={<Tasks />} />
-        <Route path='/teams' element={<Teams />} />
-        <Route path='/clients' element={<Client />} />
+        <Route path='/' element={<LandingPage onLogin={handleLogin} isAuthenticated={isAuthenticated} />} />
+        <Route path='/dashboard' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Dashboard /></ProtectedRoute>} />
+        <Route path='/advanced-dashboard' element={<ProtectedRoute isAuthenticated={isAuthenticated}><AdvancedDashboard /></ProtectedRoute>} />
+        <Route path='/tasks' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Tasks /></ProtectedRoute>} />
+        <Route path='/teams' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Teams /></ProtectedRoute>} />
+        <Route path='/clients' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Client /></ProtectedRoute>} />
       </Routes>
     </Layout>
   )

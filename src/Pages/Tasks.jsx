@@ -133,7 +133,7 @@ export default function Tasks() {
     }
   };
 
-  const pending = tasks.filter((t) => t.status !== "completed").length;
+  const pending = tasks.filter((t) => t.status == "pending").length;
   const waiting = tasks.filter((t) => t.status === "waiting").length;
   const completed = tasks.filter((t) => t.status === "completed").length;
 
@@ -371,7 +371,7 @@ export default function Tasks() {
             <div className="tk-stat-val">{pending}<span>tasks</span></div>
           </div>
           <div className="tk-stat tk-stat-waiting">
-            <div className="tk-stat-label">Waiting For Confirmation</div>
+            <div className="tk-stat-label">Waiting </div>
             <div className="tk-stat-val">{waiting}<span>tasks</span></div>
           </div>
           <div className="tk-stat tk-stat-done">
@@ -547,6 +547,19 @@ export default function Tasks() {
                     <circle cx="12" cy="7" r="4" />
                   </svg>
                   Client:&nbsp;<strong>{task.client?.name || "—"}</strong>
+                </div>
+                <div className="tk-card-row">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                  Phone:&nbsp;<strong>{task.client?.phone || "—"}</strong>
+                </div>
+                <div className="tk-card-row" style={{ alignItems: 'flex-start' }}>
+                  <svg style={{ marginTop: '3px' }} width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  <span style={{ lineHeight: '1.4' }}>Address:&nbsp;<strong>{task.client?.location || "—"}</strong></span>
                 </div>
               </div>
 
