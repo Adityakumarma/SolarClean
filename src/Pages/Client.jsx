@@ -29,6 +29,8 @@ export default function Clients() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [position, setPosition] = useState([11.2588, 75.7804]);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [selectedJobCard, setSelectedJobCard] = useState(null);
 
   function LocationPicker() {
     useMapEvents({
@@ -39,7 +41,7 @@ export default function Clients() {
 
         try {
           const res = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=en`
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
           );
 
           const data = await res.json();
@@ -145,13 +147,7 @@ export default function Clients() {
       fetchClients();
     } catch (err) {
       console.error(err);
-      Swal.fire({
-        title: "Email already exists",
-        icon: "warning",
-        draggable: true
-      });
-      setForm({ name: "", phone: "", email: "", location: "", image: null });
-
+      alert("Failed to add client");
     } finally {
       setLoading(false);
     }
@@ -325,6 +321,71 @@ export default function Clients() {
           cursor: pointer; transition: background 0.15s; width: 100%;
         }
         .cl-btn-confirm:hover { background: #15803d; }
+
+        .cl-btn-view {
+          background: #f1f5f9; color: #0F172A; border: 0.5px solid #e2e8f0;
+          padding: 0.5rem 1rem; border-radius: 6px;
+          font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+          cursor: pointer; transition: background 0.15s; width: 100%;
+          display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .cl-btn-view:hover { background: #e2e8f0; }
+
+        /* MODAL */
+        .cl-modal-overlay {
+          position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+          background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+          display: flex; justify-content: center; align-items: center; z-index: 999;
+          padding: 1rem;
+        }
+        .cl-modal {
+          background: #fff; border-radius: 16px; width: 100%; max-width: 500px;
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          overflow: hidden;
+        }
+        .cl-modal-header {
+          padding: 1.5rem; border-bottom: 0.5px solid #e2e8f0;
+          display: flex; justify-content: space-between; align-items: center;
+        }
+        .cl-modal-title {
+          font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700;
+          color: #0F172A; margin: 0; letter-spacing: -0.3px;
+        }
+        .cl-btn-close-icon {
+          background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center; cursor: pointer;
+          color: #64748b; transition: all 0.15s;
+        }
+        .cl-btn-close-icon:hover { background: #e2e8f0; color: #0F172A; }
+        .cl-modal-body { padding: 1.5rem; max-height: 70vh; overflow-y: auto; }
+        .cl-modal-section { margin-bottom: 1.5rem; }
+        .cl-modal-section:last-child { margin-bottom: 0; }
+        .cl-modal-label {
+          font-size: 12px; font-weight: 600; color: #64748b; letter-spacing: 0.5px;
+          text-transform: uppercase; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 6px;
+        }
+        .cl-modal-list {
+          list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem;
+        }
+        .cl-modal-list li {
+          font-size: 14px; color: #0F172A; display: flex; align-items: flex-start; gap: 8px;
+        }
+        .cl-modal-list li::before {
+          content: ''; width: 6px; height: 6px; background: #F59E0B; border-radius: 50%;
+          margin-top: 6px; flex-shrink: 0;
+        }
+        .cl-modal-text { font-size: 14px; color: #0F172A; line-height: 1.5; margin: 0; }
+        .cl-modal-footer {
+          padding: 1.25rem 1.5rem; border-top: 0.5px solid #e2e8f0; background: #f8fafc;
+          display: flex; justify-content: flex-end;
+        }
+        .cl-btn-close {
+          background: #fff; color: #0F172A; border: 0.5px solid #e2e8f0;
+          padding: 0.6rem 1.25rem; border-radius: 8px;
+          font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+          cursor: pointer; transition: all 0.15s;
+        }
+        .cl-btn-close:hover { background: #f1f5f9; border-color: #cbd5e1; }
 
         .cl-empty {
           grid-column: 1 / -1; text-align: center; padding: 4rem 0;
@@ -546,6 +607,54 @@ export default function Clients() {
                   </div>
                 ))}
 
+           {tasks
+  .filter(
+    (task) =>
+      task.client?._id === c._id &&
+      task.jobCard &&
+      task.status === "waiting"
+  )
+  .map((task) => (
+    <div
+      key={task._id}
+      className="cl-task-alert"
+      style={{
+        borderTop: "none",
+        paddingTop: 0
+      }}
+    >
+
+      <button
+        className="cl-btn-view"
+        onClick={() => {
+
+          setSelectedJobCard(task.jobCard);
+
+          setShowViewModal(true);
+
+        }}
+      >
+
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        >
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+
+        View Job Card
+
+      </button>
+
+    </div>
+))}
+
               <div className="cl-card-footer">
                 <button className="cl-btn-delete" onClick={() => deleteClient(c._id)}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -558,6 +667,73 @@ export default function Clients() {
           ))}
         </div>
       </div>
+
+      {showViewModal && selectedJobCard && (
+        <div className="cl-modal-overlay" onClick={() => setShowViewModal(false)}>
+          <div className="cl-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="cl-modal-header">
+              <h2 className="cl-modal-title">Job Card Details</h2>
+              <button className="cl-btn-close-icon" onClick={() => setShowViewModal(false)}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+            
+            <div className="cl-modal-body">
+              {selectedJobCard.servicesDone && selectedJobCard.servicesDone.length > 0 && (
+                <div className="cl-modal-section">
+                  <div className="cl-modal-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Services Done
+                  </div>
+                  <ul className="cl-modal-list">
+                    {selectedJobCard.servicesDone.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {selectedJobCard.complaints && selectedJobCard.complaints.length > 0 && (
+                <div className="cl-modal-section">
+                  <div className="cl-modal-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    Complaints
+                  </div>
+                  <ul className="cl-modal-list">
+                    {selectedJobCard.complaints.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {selectedJobCard.remarks && (
+                <div className="cl-modal-section">
+                  <div className="cl-modal-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    Remarks
+                  </div>
+                  <p className="cl-modal-text">{selectedJobCard.remarks}</p>
+                </div>
+              )}
+
+              {selectedJobCard.completedBy && (
+                <div className="cl-modal-section">
+                  <div className="cl-modal-label">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Completed By
+                  </div>
+                  <p className="cl-modal-text">{selectedJobCard.completedBy}</p>
+                </div>
+              )}
+            </div>
+
+            <div className="cl-modal-footer">
+              <button className="cl-btn-close" onClick={() => setShowViewModal(false)}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

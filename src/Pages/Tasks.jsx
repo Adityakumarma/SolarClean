@@ -96,6 +96,43 @@ export default function Tasks() {
     fetchData();
   };
 
+  const [showJobModal, setShowJobModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [jobCard, setJobCard] = useState({
+    servicesDone: "",
+    complaints: "",
+    remarks: "",
+    completedBy: ""
+  });
+
+  const submitJobCard = async () => {
+    try {
+      await axios.put(
+        `${API}/tasks/${selectedTask._id}/jobcard`,
+        {
+          servicesDone: jobCard.servicesDone.split(",").map((s) => s.trim()).filter(Boolean),
+          complaints: jobCard.complaints.split(",").map((s) => s.trim()).filter(Boolean),
+          remarks: jobCard.remarks,
+          completedBy: jobCard.completedBy
+        }
+      );
+      Swal.fire({
+        title: "Job Card Added!",
+        icon: "success"
+      });
+      setShowJobModal(false);
+      setJobCard({ servicesDone: "", complaints: "", remarks: "", completedBy: "" });
+
+      fetchData();
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        title: "Error Adding Job Card",
+        icon: "error"
+      });
+    }
+  };
+
   const pending = tasks.filter((t) => t.status !== "completed").length;
   const waiting = tasks.filter((t) => t.status === "waiting").length;
   const completed = tasks.filter((t) => t.status === "completed").length;
@@ -119,7 +156,7 @@ export default function Tasks() {
 
         /* STATS */
         .tk-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
-        .tk-stat { background: #fff; border: 0.5px solid #e2e8f0; border-radius: 12px; padding: 1.25rem 1.5rem; height: 110px; }
+        .tk-stat { background: #fff; border: 0.5px solid #e2e8f0; border-radius: 12px; padding: 1.25rem 1.5rem; height: 100px; }
         .tk-stat-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #94a3b8; margin-bottom: 0.4rem; }
         .tk-stat-val { font-family: 'Geist', sans-serif; font-size: 1.75rem; font-weight: 800; color: #0F172A; }
         .tk-stat-val span { font-size: 14px; font-weight: 400; color: #94a3b8; margin-left: 4px; font-family: 'DM Sans', sans-serif; }
@@ -230,6 +267,71 @@ export default function Tasks() {
           transition: background 0.15s;
         }
         .tk-btn-delete:hover { background: #fef2f2; }
+
+        .tk-btn-job {
+          background: #f1f5f9; color: #0F172A; border: 0.5px solid #e2e8f0;
+          padding: 0.45rem 0.9rem; border-radius: 7px;
+          font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+          cursor: pointer; display: flex; align-items: center; gap: 5px;
+          transition: background 0.15s;
+        }
+        .tk-btn-job:hover { background: #e2e8f0; }
+
+        /* MODAL */
+        .tk-modal-overlay {
+          position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+          background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+          display: flex; justify-content: center; align-items: center; z-index: 999;
+          padding: 1rem;
+        }
+        .tk-modal {
+          background: #fff; border-radius: 16px; width: 100%; max-width: 500px;
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+          overflow: hidden;
+        }
+        .tk-modal-header {
+          padding: 1.5rem; border-bottom: 0.5px solid #e2e8f0;
+          display: flex; justify-content: space-between; align-items: center;
+        }
+        .tk-modal-title {
+          font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700;
+          color: #0F172A; margin: 0; letter-spacing: -0.3px;
+        }
+        .tk-btn-close-icon {
+          background: #f1f5f9; border: none; width: 32px; height: 32px; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center; cursor: pointer;
+          color: #64748b; transition: all 0.15s;
+        }
+        .tk-btn-close-icon:hover { background: #e2e8f0; color: #0F172A; }
+        .tk-modal-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; max-height: 70vh; overflow-y: auto; }
+        .tk-textarea, .tk-modal-input {
+          border: 0.5px solid #e2e8f0; padding: 0.85rem 1rem; border-radius: 8px;
+          font-family: 'DM Sans', sans-serif; font-size: 14px; color: #0F172A;
+          background: #f8fafc; outline: none; transition: border-color 0.15s, background 0.15s; width: 100%;
+        }
+        .tk-textarea { resize: vertical; min-height: 90px; }
+        .tk-textarea:focus, .tk-modal-input:focus { border-color: #F59E0B; background: #fff; }
+        .tk-textarea::placeholder, .tk-modal-input::placeholder { color: #94a3b8; }
+        .tk-modal-footer {
+          padding: 1.25rem 1.5rem; border-top: 0.5px solid #e2e8f0; background: #f8fafc;
+          display: flex; gap: 1rem;
+        }
+           .tk-btn-save {
+          flex: 1; background: #16a34a; color: #fff; border: none;
+          padding: 0.75rem; border-radius: 8px;
+          font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+          cursor: pointer; transition: background 0.15s;
+          display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .tk-btn-save:hover { background: #15803d; }
+        .tk-btn-cancel {
+          flex: 1; background: #fff; color: #0F172A; border: 0.5px solid #e2e8f0;
+          padding: 0.75rem; border-radius: 8px;
+          font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600;
+          cursor: pointer; transition: all 0.15s;
+          display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .tk-btn-cancel:hover { background: #f1f5f9; border-color: #cbd5e1; }
 
         .tk-empty {
           grid-column: 1 / -1; text-align: center; padding: 4rem;
@@ -446,30 +548,6 @@ export default function Tasks() {
                   </svg>
                   Client:&nbsp;<strong>{task.client?.name || "—"}</strong>
                 </div>
-                <div className="tk-card-row">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                  </svg>
-                  Phone:&nbsp;<strong>{task.client?.phone || "—"}</strong>
-                </div>
-
-                <div className="tk-card-row">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
-                  Location:&nbsp;<strong>{task.client?.location || "—"}</strong>
-                </div>
               </div>
 
               <div className="tk-next-clean">
@@ -491,31 +569,189 @@ export default function Tasks() {
               <div className="tk-card-footer">
 
                 {task.status === "pending" && (
+
                   <button
                     className="tk-btn-complete"
                     onClick={() =>
                       updateStatus(task._id, "waiting")
                     }
                   >
+
+                    <svg
+                      width="13"
+                      height="13"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    >
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+
                     Mark Complete
+
                   </button>
+
                 )}
 
+                {task.status === "pending" ? (
 
-                <button className="tk-btn-delete " onClick={() => deleteTask(task._id)}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <button
+                    className="tk-btn-job"
+                    onClick={() => {
+                      setSelectedTask(task);
+                      setShowJobModal(true);
+                    }}
+                  >
+
+                    <svg
+                      width="13"
+                      height="13"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    >
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="16" y1="13" x2="8" y2="13"></line>
+                      <line x1="16" y1="17" x2="8" y2="17"></line>
+                      <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+
+                    Add Job Card
+
+                  </button>
+
+                ) : (
+
+                  <div
+                    style={{
+                      background: "#dcfce7",
+                      color: "#166534",
+                      padding: "0.5rem 1rem",
+                      borderRadius: "8px",
+                      fontSize: "13px",
+                      fontWeight: "600",
+                      border: "1px solid #bbf7d0",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px"
+                    }}
+                  >
+
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+
+                    Job Card Added
+
+                  </div>
+
+                )}
+
+                <button
+                  className="tk-btn-delete"
+                  onClick={() => deleteTask(task._id)}
+                >
+
+                  <svg
+                    width="13"
+                    height="13"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  >
                     <polyline points="3 6 5 6 21 6" />
                     <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
                     <path d="M10 11v6M14 11v6" />
                   </svg>
+
                   Delete
+
                 </button>
+
               </div>
             </div>
           ))}
         </div>
 
       </div>
+
+      {showJobModal && (
+        <div className="tk-modal-overlay" onClick={() => setShowJobModal(false)}>
+          <div className="tk-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="tk-modal-header">
+              <h2 className="tk-modal-title">Add Job Card</h2>
+              <button className="tk-btn-close-icon" onClick={() => setShowJobModal(false)}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+
+            <div className="tk-modal-body">
+              <textarea
+                className="tk-textarea"
+                placeholder="Services Done "
+                value={jobCard.servicesDone}
+                onChange={(e) => setJobCard({ ...jobCard, servicesDone: e.target.value })}
+              />
+
+              <textarea
+                className="tk-textarea"
+                placeholder="Complaints"
+                value={jobCard.complaints}
+                onChange={(e) => setJobCard({ ...jobCard, complaints: e.target.value })}
+              />
+
+              <textarea
+                className="tk-textarea"
+                placeholder="Remarks"
+                value={jobCard.remarks}
+                onChange={(e) => setJobCard({ ...jobCard, remarks: e.target.value })}
+              />
+
+              <input
+                className="tk-modal-input"
+                type="text"
+                placeholder="Completed By"
+                value={jobCard.completedBy}
+                onChange={(e) => setJobCard({ ...jobCard, completedBy: e.target.value })}
+              />
+            </div>
+
+              <div className="tk-modal-footer">
+              <button className="tk-btn-save" onClick={submitJobCard}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                Save Job Card
+              </button>
+              <button className="tk-btn-cancel" onClick={() => setShowJobModal(false)}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
