@@ -329,7 +329,7 @@ export default function Clients() {
           cursor: pointer; transition: background 0.15s; width: 100%;
           display: flex; align-items: center; justify-content: center; gap: 6px;
         }
-        .cl-btn-view:hover { background: #e2e8f0; }
+        .cl-btn-view:hover { background: #ffffff; }
 
         /* MODAL */
         .cl-modal-overlay {
