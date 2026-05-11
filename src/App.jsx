@@ -59,14 +59,18 @@ const ProtectedRoute = ({ isAuthenticated, children }) => {
 };
 
 function App() {
+
+   const handleLogin = () => {
+    setIsAuthenticated(true);
+    sessionStorage.setItem('Admin', 'true');
+  };
+
+
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return sessionStorage.getItem('isAdminLoggedIn') === 'true';
+    return sessionStorage.getItem('Admin') === 'true';
   });
 
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-    sessionStorage.setItem('isAdminLoggedIn', 'true');
-  };
+ 
 
   return (
     <Layout>
