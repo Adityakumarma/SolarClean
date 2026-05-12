@@ -25,6 +25,26 @@ const Layout = ({ children }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <style>{`
+
+      .app-layout-sidebar {
+  display: block;
+}
+
+@media (max-width: 768px) {
+
+  .app-layout-body {
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  .app-layout-sidebar {
+    display: none;
+  }
+
+  .app-layout-main {
+    overflow: visible !important;
+  }
+}
         .app-layout-body {
           display: flex;
           flex: 1;
@@ -42,7 +62,9 @@ const Layout = ({ children }) => {
       `}</style>
       <Navbar />
       <div className="app-layout-body">
-        <Sidebar />
+        <div className="app-layout-sidebar">
+          <Sidebar />
+        </div>
         <main className="app-layout-main" style={{ flex: 1, overflowY: 'auto', background: '#f1f5f9' }}>
           {children}
         </main>
@@ -60,7 +82,7 @@ const ProtectedRoute = ({ isAuthenticated, children }) => {
 
 function App() {
 
-   const handleLogin = () => {
+  const handleLogin = () => {
     setIsAuthenticated(true);
     sessionStorage.setItem('Admin', 'true');
   };
@@ -70,7 +92,7 @@ function App() {
     return sessionStorage.getItem('Admin') === 'true';
   });
 
- 
+
 
   return (
     <Layout>
