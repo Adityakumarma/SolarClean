@@ -492,7 +492,7 @@ export default function Tasks() {
             <div key={task._id} className={`tk-card${task.status === "completed" ? " completed" : ""}`}>
 
               {task.client?.image ? (
-                <img src={`${BASE}/uploads/${task.client.image}`} className="tk-card-img" alt="panel" />
+                <img src={task.client.image} className="tk-card-img" alt="panel" />
               ) : (
                 <div className="tk-card-img-placeholder">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round">
