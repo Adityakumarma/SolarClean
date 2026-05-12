@@ -549,7 +549,7 @@ export default function Clients() {
           {clients.map((c) => (
             <div key={c._id} className="cl-card">
               {c.image ? (
-                <img src={`${BASE}/uploads/${c.image}`} alt="solar" className="cl-card-img" />
+                <img src={c.image} alt="solar" className="cl-card-img" />
               ) : (
                 <div className="cl-card-img-placeholder">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round">
