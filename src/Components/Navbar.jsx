@@ -25,7 +25,7 @@ export default function Navbar() {
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
         .nb-root {
-          font-family: 'DM Sans', sans-serif;
+          font-family: "'Inter', sans-serif";
           position: sticky;
           top: 0;
           z-index: 200;
@@ -48,9 +48,9 @@ export default function Navbar() {
           display: flex;
           align-items: center;
           gap: 10px;
-          font-family: 'Syne', sans-serif;
-          font-weight: 800;
-          font-size: 18px;
+          font-family: "'Inter', sans-serif";
+          font-weight: 900;
+          font-size: 25px;
           letter-spacing: -0.5px;
           color: #0F172A;
           text-decoration: none;
