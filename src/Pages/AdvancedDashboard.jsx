@@ -383,7 +383,7 @@ export default function AdvancedDashboard() {
                 }
 
                 .db-card-title {
-                    font-family: 'Outfit', sans-serif;
+                    font-family: "Oswald", sans-serif;
                     font-size: 1.1rem;
                     font-weight: 700;
                     color: #0F172A;
