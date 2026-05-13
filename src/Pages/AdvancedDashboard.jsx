@@ -418,7 +418,7 @@ export default function AdvancedDashboard() {
                 }
             `}</style>
 
-            {/* ── Page header ── */}
+           
             <div className="db-header" style={{ marginBottom: '2.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid #e2e8f0' }}>
                 <div>
                     <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#B45309', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem' }}>
@@ -430,7 +430,8 @@ export default function AdvancedDashboard() {
                 </div>
             </div>
 
-            {/* ── Cleaning Due Search ── */}
+        
+
             <div className="db-search-card">
                 <div className="db-card-title">
                     <span className="db-card-title-dot" style={{ background: '#16a34a' }}></span>
@@ -496,7 +497,7 @@ export default function AdvancedDashboard() {
                                                 </span>
                                             </div>
 
-                                            {/* Due date */}
+                                            
                                             <div className="db-due-date-row">
                                                 <svg className="db-calendar-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <rect x="1" y="2.5" width="14" height="12.5" rx="2" stroke="currentColor" strokeWidth="1.4"/>
@@ -508,7 +509,7 @@ export default function AdvancedDashboard() {
                                                 </span>
                                             </div>
 
-                                            {/* Info rows */}
+                                            
                                             <div className="db-info-rows">
                                                 <div className="db-info-row">
                                                     <span className="db-info-icon">👤</span>
@@ -540,7 +541,7 @@ export default function AdvancedDashboard() {
                 )}
             </div>
 
-            {/* ── Charts ── */}
+           
             <div className="db-charts-grid" style={{ gridTemplateColumns: '1fr' }}>
                 <div className="db-card">
                     <div className="db-card-title">
