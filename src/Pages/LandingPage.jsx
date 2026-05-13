@@ -32,7 +32,7 @@ export default function Landing({ onLogin, isAuthenticated }) {
         overflow: "hidden"
       }}
     >
-      {/* Decorative Background Elements */}
+     
       <div style={{
         position: 'absolute',
         top: '-10%',
