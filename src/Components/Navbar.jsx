@@ -25,7 +25,7 @@ export default function Navbar() {
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
         .nb-root {
-          font-family: "'Inter', sans-serif";
+          font-family: "Oswald", sans-serif;
           position: sticky;
           top: 0;
           z-index: 200;
@@ -48,7 +48,7 @@ export default function Navbar() {
           display: flex;
           align-items: center;
           gap: 10px;
-          font-family: "'Inter', sans-serif";
+          font-family: "Oswald", sans-serif;
           font-weight: 900;
           font-size: 25px;
           letter-spacing: -0.5px;
@@ -78,8 +78,8 @@ export default function Navbar() {
         }
         .nb-link {
           text-decoration: none;
-          font-size: 16px;
-          font-weight: 400;
+          font-size: 14px;
+          font-weight: 600;
           color: #64748b;
           padding: 0.45rem 0.9rem;
           border-radius: 8px;
