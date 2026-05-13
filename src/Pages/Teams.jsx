@@ -79,6 +79,20 @@ export default function Teams() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
+        .fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
         .tm-page { max-width: 1200px; margin: 0 auto; padding: 3rem 2.5rem; }
 
         /* HEADER */
@@ -195,7 +209,7 @@ export default function Teams() {
         }
       `}</style>
 
-      <div className="tm-page">
+      <div className="tm-page fade-in">
 
         
         <div className="tm-header">

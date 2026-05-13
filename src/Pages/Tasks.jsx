@@ -276,6 +276,19 @@ export default function Tasks() {
           transition: background 0.15s;
         }
         .tk-btn-job:hover { background: #e2e8f0; }
+        .fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
 
         /* MODAL */
         .tk-modal-overlay {
@@ -351,7 +364,7 @@ export default function Tasks() {
         }
       `}</style>
 
-      <div className="tk-page">
+      <div className="tk-page fade-in">
 
 
         <div className="tk-header">

@@ -275,6 +275,19 @@ export default function Clients() {
         .cl-card {
           background: #fff; border: 0.5px solid #e2e8f0; border-radius: 14px;
           overflow: hidden; transition: box-shadow 0.15s;
+          .fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
         }
         .cl-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
         .cl-card-img { width: 100%; height: 160px; object-fit: cover; display: block; border-bottom: 0.5px solid #e2e8f0; }
@@ -403,7 +416,7 @@ export default function Clients() {
         }
       `}</style>
 
-      <div className="cl-page">
+      <div className="cl-page fade-in">
 
 
         <div className="cl-header">
