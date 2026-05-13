@@ -549,22 +549,18 @@ export default function AdvancedDashboard() {
                                             <div className="db-info-rows">
                                                 <div className="db-info-row">
                                                     <span className="db-info-icon">👤</span>
-                                                    <span className="db-info-label">Client</span>
                                                     <span className="db-info-value">{task.client?.name || "N/A"}</span>
                                                 </div>
                                                 <div className="db-info-row">
                                                     <span className="db-info-icon">📍</span>
-                                                    <span className="db-info-label">Area</span>
                                                     <span className="db-info-value">{task.client?.location || "N/A"}</span>
                                                 </div>
                                                 <div className="db-info-row">
                                                     <span className="db-info-icon">📞</span>
-                                                    <span className="db-info-label">Phone</span>
                                                     <span className="db-info-value">{task.client?.phone || "N/A"}</span>
                                                 </div>
                                                 <div className="db-info-row">
                                                     <span className="db-info-icon">🏷️</span>
-                                                    <span className="db-info-label">Team</span>
                                                     <span className="db-info-value">{task.assignedTeam?.name || "N/A"}</span>
                                                 </div>
                                             </div>
