@@ -61,7 +61,7 @@ export default function AdvancedDashboard() {
         });
     }, [tasks, fromDate, toDate, searchClicked]);
 
-    
+
     const getDaysUntil = (dateStr) => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -82,6 +82,25 @@ export default function AdvancedDashboard() {
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
 
+
+                .db-btn-group {
+    display: flex;
+    gap: 0.8rem;
+}
+
+@media (max-width: 768px) {
+
+    .db-btn-group {
+        width: 100%;
+    }
+
+    .db-search-btn,
+    .db-clear-btn {
+        flex: 1;
+        width: 100%;
+    }
+}
+    
                 /* ── Search card ── */
                 .db-search-card {
                     background: #fff;
@@ -414,11 +433,11 @@ export default function AdvancedDashboard() {
                     .db-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
                     .db-card { padding: 1rem; }
                     .db-due-grid { grid-template-columns: 1fr; }
-                    .db-date-input { width: 100%; }
+                    .db-date-input { width: 340px; }
                 }
             `}</style>
 
-           
+
             <div className="db-header" style={{ marginBottom: '2.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid #e2e8f0' }}>
                 <div>
                     <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#B45309', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem' }}>
@@ -430,7 +449,7 @@ export default function AdvancedDashboard() {
                 </div>
             </div>
 
-        
+
 
             <div className="db-search-card">
                 <div className="db-card-title">
@@ -457,8 +476,25 @@ export default function AdvancedDashboard() {
                             onChange={(e) => { setToDate(e.target.value); setSearchClicked(false); }}
                         />
                     </div>
-                    <button className="db-search-btn" onClick={() => setSearchClicked(true)}>Search</button>
-                    <button className="db-clear-btn" onClick={() => { setFromDate(""); setToDate(""); setSearchClicked(false); }}>Clear</button>
+                    <div className="db-btn-group">
+                        <button
+                            className="db-search-btn"
+                            onClick={() => setSearchClicked(true)}
+                        >
+                            Search
+                        </button>
+
+                        <button
+                            className="db-clear-btn"
+                            onClick={() => {
+                                setFromDate("");
+                                setToDate("");
+                                setSearchClicked(false);
+                            }}
+                        >
+                            Clear
+                        </button>
+                    </div>
                 </div>
 
                 {searchClicked && (
@@ -486,7 +522,7 @@ export default function AdvancedDashboard() {
                                             className={`db-due-card ${cardClass}`}
                                             style={{ animationDelay: `${i * 0.05}s` }}
                                         >
-                                            {/* Top: location + urgency badge */}
+
                                             <div className="db-card-top">
                                                 <div className="db-location-name">{task.location}</div>
                                                 <span
@@ -497,19 +533,19 @@ export default function AdvancedDashboard() {
                                                 </span>
                                             </div>
 
-                                            
+
                                             <div className="db-due-date-row">
                                                 <svg className="db-calendar-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="1" y="2.5" width="14" height="12.5" rx="2" stroke="currentColor" strokeWidth="1.4"/>
-                                                    <path d="M1 6.5h14" stroke="currentColor" strokeWidth="1.4"/>
-                                                    <path d="M5 1v3M11 1v3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                                                    <rect x="1" y="2.5" width="14" height="12.5" rx="2" stroke="currentColor" strokeWidth="1.4" />
+                                                    <path d="M1 6.5h14" stroke="currentColor" strokeWidth="1.4" />
+                                                    <path d="M5 1v3M11 1v3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
                                                 </svg>
                                                 <span className="db-due-date-text">
                                                     Due {new Date(task.nextCleaning).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
                                                 </span>
                                             </div>
 
-                                            
+
                                             <div className="db-info-rows">
                                                 <div className="db-info-row">
                                                     <span className="db-info-icon">👤</span>
@@ -541,7 +577,7 @@ export default function AdvancedDashboard() {
                 )}
             </div>
 
-           
+
             <div className="db-charts-grid" style={{ gridTemplateColumns: '1fr' }}>
                 <div className="db-card">
                     <div className="db-card-title">
