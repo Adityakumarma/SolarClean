@@ -269,13 +269,7 @@ export default function Clients() {
           background: #FEF3C7; color: #B45309; font-size: 12px; font-weight: 600;
           padding: 3px 10px; border-radius: 100px;
         }
-
-        /* CLIENT CARDS */
-        .cl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-        .cl-card {
-          background: #fff; border: 0.5px solid #e2e8f0; border-radius: 14px;
-          overflow: hidden; transition: box-shadow 0.15s;
-          .fade-in {
+            .fade-in {
   animation: fadeIn 0.4s ease-out forwards;
 }
 
@@ -288,6 +282,13 @@ export default function Clients() {
     opacity: 1;
   }
 }
+
+        /* CLIENT CARDS */
+        .cl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+        .cl-card {
+          background: #fff; border: 0.5px solid #e2e8f0; border-radius: 14px;
+          overflow: hidden; transition: box-shadow 0.15s;
+        
         }
         .cl-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
         .cl-card-img { width: 100%; height: 160px; object-fit: cover; display: block; border-bottom: 0.5px solid #e2e8f0; }
