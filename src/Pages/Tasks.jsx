@@ -167,7 +167,7 @@ export default function Tasks() {
         /* FORM CARD */
         .tk-form-card { background: #fff; border: 0.5px solid #e2e8f0; border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem; }
         .tk-form-title {
-          font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: #0F172A;
+          font-family: "Oswald", sans-serif; font-size: 1.25rem; font-weight: 700; color: #0F172A;
           letter-spacing: -0.3px; margin-bottom: 1.5rem; padding-bottom: 1rem;
           border-bottom: 0.5px solid #e2e8f0; display: flex; align-items: center; gap: 8px;
         }
@@ -204,7 +204,7 @@ export default function Tasks() {
 
         /* TASKS LIST */
         .tk-list-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
-        .tk-list-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: #0F172A; letter-spacing: -0.3px; }
+        .tk-list-title { font-family: "Oswald", sans-serif; font-size: 1.25rem; font-weight: 700; color: #0F172A; letter-spacing: -0.3px; }
         .tk-badge { background: #FEF3C7; color: #B45309; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 100px; }
 
         .tk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
@@ -226,7 +226,7 @@ export default function Tasks() {
           display: flex; align-items: flex-start; justify-content: space-between; gap: 0.75rem;
           border-bottom: 0.5px solid #f1f5f9;
         }
-        .tk-card-location { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: #0F172A; letter-spacing: -0.3px; }
+        .tk-card-location { font-family: "Oswald", sans-serif; font-size: 1rem; font-weight: 700; color: #0F172A; letter-spacing: -0.3px; }
         .tk-status-pill {
           font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px;
           white-space: nowrap; flex-shrink: 0;

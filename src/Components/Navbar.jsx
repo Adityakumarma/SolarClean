@@ -78,7 +78,7 @@ export default function Navbar() {
         }
         .nb-link {
           text-decoration: none;
-          font-size: 14px;
+          font-size: 16px;
           font-weight: 400;
           color: #64748b;
           padding: 0.45rem 0.9rem;

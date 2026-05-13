@@ -212,7 +212,7 @@ export default function Clients() {
           border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem;
         }
         .cl-form-title {
-          font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+          font-family: "Oswald", sans-serif; font-size: 1.25rem; font-weight: 700;
           color: #0F172A; letter-spacing: -0.3px; margin-bottom: 1.5rem;
           padding-bottom: 1rem; border-bottom: 0.5px solid #e2e8f0;
           display: flex; align-items: center; gap: 8px;
@@ -262,7 +262,7 @@ export default function Clients() {
           margin-bottom: 1.5rem;
         }
         .cl-section-title {
-          font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700;
+          font-family: "Oswald", sans-serif; font-size: 1.25rem; font-weight: 700;
           color: #0F172A; letter-spacing: -0.3px;
         }
         .cl-count-badge {
@@ -285,7 +285,7 @@ export default function Clients() {
         }
         .cl-card-body { padding: 1.25rem; }
         .cl-card-name {
-          font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700;
+          font-family: "Oswald", sans-serif; font-size: 1rem; font-weight: 700;
           color: #0F172A; margin-bottom: 0.75rem; letter-spacing: -0.3px;
         }
         .cl-card-row {

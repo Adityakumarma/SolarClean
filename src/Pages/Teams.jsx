@@ -109,7 +109,7 @@ export default function Teams() {
           background: #fff; border: 0.5px solid #e2e8f0; border-radius: 16px; padding: 1.75rem;
         }
         .tm-card-title {
-          font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: #0F172A;
+          font-family: "Oswald", sans-serif; font-size: 1.25rem; font-weight: 700; color: #0F172A;
           letter-spacing: -0.3px; margin-bottom: 1.25rem; padding-bottom: 1rem;
           border-bottom: 0.5px solid #e2e8f0; display: flex; align-items: center; gap: 8px;
         }
@@ -152,7 +152,7 @@ export default function Teams() {
         .tm-list-head {
           display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;
         }
-        .tm-list-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: #0F172A; letter-spacing: -0.3px; }
+        .tm-list-title { font-family: "Oswald", sans-serif; font-size: 1.25rem; font-weight: 700; color: #0F172A; letter-spacing: -0.3px; }
         .tm-badge { background: #FEF3C7; color: #B45309; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 100px; }
 
         .tm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
@@ -163,7 +163,7 @@ export default function Teams() {
           padding: 1.25rem 1.5rem; border-bottom: 0.5px solid #e2e8f0;
           display: flex; align-items: center; justify-content: space-between; background: #fff;
         }
-        .tm-team-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: #0F172A; letter-spacing: -0.3px; }
+        .tm-team-name { font-family: "Oswald", sans-serif; font-size: 1rem; font-weight: 700; color: #0F172A; letter-spacing: -0.3px; }
         .tm-member-count { font-size: 12px; color: #64748b; background: #f1f5f9; padding: 3px 10px; border-radius: 100px; }
         .tm-team-body { padding: 0.5rem 0; }
 
