@@ -159,7 +159,7 @@ export default function Sidebar() {
         <LineChart size={20} /> Advanced Dashboard
       </Link>
 
-      {/* Clients Dropdown */}
+      
       <div>
         <div 
           onClick={() => setClientsOpen(!clientsOpen)} 
@@ -177,13 +177,13 @@ export default function Sidebar() {
               Add Client
             </Link>
             <Link to="/clients-list" className={`sb-sub-item ${path === '/clients-list' ? 'active' : ''}`}>
-              Clients List
+              View Clients
             </Link>
           </div>
         )}
       </div>
 
-      {/* Teams Dropdown */}
+      
       <div>
         <div 
           onClick={() => setTeamsOpen(!teamsOpen)} 
@@ -201,13 +201,13 @@ export default function Sidebar() {
               Add Team
             </Link>
             <Link to="/teams-list" className={`sb-sub-item ${path === '/teams-list' ? 'active' : ''}`}>
-              Teams List
+              View Teams
             </Link>
           </div>
         )}
       </div>
 
-      {/* Tasks Dropdown */}
+      
       <div>
         <div 
           onClick={() => setTasksOpen(!tasksOpen)} 
@@ -225,7 +225,7 @@ export default function Sidebar() {
               Create Task
             </Link>
             <Link to="/tasks-list" className={`sb-sub-item ${path === '/tasks-list' ? 'active' : ''}`}>
-              Tasks List
+              View Tasks
             </Link>
           </div>
         )}

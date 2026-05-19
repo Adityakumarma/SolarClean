@@ -295,7 +295,7 @@ export default function Navbar() {
               </Link>
             </li>
 
-            {/* Clients Dropdown */}
+            
             <li className="nb-dropdown-container">
               <span className={`nb-link${isSectionActive(['/clients', '/clients-list']) ? " active" : ""}`}>
                 <span className="nb-link-dot"></span>
@@ -312,13 +312,13 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link to="/clients-list" className={`nb-dropdown-item${isActive('/clients-list') ? " active" : ""}`}>
-                    Clients List
+                    View Clients
                   </Link>
                 </li>
               </ul>
             </li>
 
-            {/* Teams Dropdown */}
+            
             <li className="nb-dropdown-container">
               <span className={`nb-link${isSectionActive(['/teams', '/teams-list']) ? " active" : ""}`}>
                 <span className="nb-link-dot"></span>
@@ -335,13 +335,13 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link to="/teams-list" className={`nb-dropdown-item${isActive('/teams-list') ? " active" : ""}`}>
-                    Teams List
+                    View Teams
                   </Link>
                 </li>
               </ul>
             </li>
 
-            {/* Tasks Dropdown */}
+            
             <li className="nb-dropdown-container">
               <span className={`nb-link${isSectionActive(['/tasks', '/tasks-list']) ? " active" : ""}`}>
                 <span className="nb-link-dot"></span>
@@ -358,7 +358,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link to="/tasks-list" className={`nb-dropdown-item${isActive('/tasks-list') ? " active" : ""}`}>
-                    Tasks List
+                    View Tasks
                   </Link>
                 </li>
               </ul>
