@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -6,16 +6,23 @@ import {
   ClipboardList,
   Users,
   Building2,
-  Settings
+  ChevronDown,
+  ChevronRight
 } from "lucide-react";
 
 export default function Sidebar() {
   const location = useLocation();
   const path = location.pathname;
 
+  const [clientsOpen, setClientsOpen] = useState(true);
+  const [teamsOpen, setTeamsOpen] = useState(true);
+  const [tasksOpen, setTasksOpen] = useState(true);
+
   return (
     <div className="app-sidebar">
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+
         .app-sidebar {
           width: 260px;
           background: #fff;
@@ -29,7 +36,7 @@ export default function Sidebar() {
           position: sticky;
           top: 0;
           overflow-y: auto;
-          font-family: 'Inter', sans-serif;
+          font-family: 'Outfit', sans-serif;
         }
 
         .sb-title {
@@ -54,6 +61,7 @@ export default function Sidebar() {
           font-size: 15px;
           text-decoration: none;
           transition: all 0.2s;
+          user-select: none;
         }
 
         .sb-nav-item:hover {
@@ -62,13 +70,64 @@ export default function Sidebar() {
         }
 
         .sb-nav-item.active {
-          background: #0f172a;
-          color: #fff;
-          box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+          background: #f1f5f9;
+          color: #0f172a;
+          font-weight: 600;
         }
 
         .sb-nav-item.active svg {
-          color: #F59E0B;
+          color: #316398;
+        }
+
+        .sb-sub-menu {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+          padding-left: 1.5rem;
+          margin-left: 1.5rem;
+          border-left: 1.5px solid #e2e8f0;
+          margin-top: 0.25rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .sb-sub-item {
+          display: flex;
+          align-items: center;
+          padding: 0.55rem 1rem;
+          border-radius: 8px;
+          color: #64748b;
+          font-weight: 500;
+          font-size: 14px;
+          text-decoration: none;
+          transition: all 0.2s;
+          position: relative;
+        }
+
+        .sb-sub-item:hover {
+          background: #f8fafc;
+          color: #0f172a;
+        }
+
+        .sb-sub-item.active {
+          background: #ebf4fa;
+          color: #316398;
+          font-weight: 600;
+        }
+
+        /* Active dot indicator overlaying the vertical menu line */
+        .sb-sub-item.active::before {
+          content: '';
+          position: absolute;
+          left: -25.5px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 7px;
+          height: 7px;
+          background: #316398;
+          border-radius: 50%;
+          border: 2px solid #fff;
+          box-shadow: 0 0 0 1px #316398;
+          z-index: 2;
         }
         
         @media (max-width: 768px) {
@@ -82,9 +141,11 @@ export default function Sidebar() {
             top: 0;
             padding: 1rem;
             overflow-x: auto;
+            gap: 1rem;
           }
           .sb-title { display: none; }
           .sb-nav-item { width: auto; white-space: nowrap; }
+          .sb-sub-menu { display: none; }
         }
       `}</style>
       
@@ -98,22 +159,79 @@ export default function Sidebar() {
         <LineChart size={20} /> Advanced Dashboard
       </Link>
 
-      <Link to="/clients" className={`sb-nav-item ${path === '/clients' ? 'active' : ''}`}>
-        <Building2 size={20} /> Clients
-      </Link>
+      {/* Clients Dropdown */}
+      <div>
+        <div 
+          onClick={() => setClientsOpen(!clientsOpen)} 
+          className={`sb-nav-item ${(path === '/clients' || path === '/clients-list') ? 'active' : ''}`}
+          style={{ justifyContent: 'space-between', cursor: 'pointer' }}
+        >
+          <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Building2 size={20} /> Clients
+          </span>
+          {clientsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+        </div>
+        {clientsOpen && (
+          <div className="sb-sub-menu">
+            <Link to="/clients" className={`sb-sub-item ${path === '/clients' ? 'active' : ''}`}>
+              Add Client
+            </Link>
+            <Link to="/clients-list" className={`sb-sub-item ${path === '/clients-list' ? 'active' : ''}`}>
+              Clients List
+            </Link>
+          </div>
+        )}
+      </div>
 
-      <Link to="/teams" className={`sb-nav-item ${path === '/teams' ? 'active' : ''}`}>
-        <Users size={20} /> Teams
-      </Link>
+      {/* Teams Dropdown */}
+      <div>
+        <div 
+          onClick={() => setTeamsOpen(!teamsOpen)} 
+          className={`sb-nav-item ${(path === '/teams' || path === '/teams-list') ? 'active' : ''}`}
+          style={{ justifyContent: 'space-between', cursor: 'pointer' }}
+        >
+          <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Users size={20} /> Teams
+          </span>
+          {teamsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+        </div>
+        {teamsOpen && (
+          <div className="sb-sub-menu">
+            <Link to="/teams" className={`sb-sub-item ${path === '/teams' ? 'active' : ''}`}>
+              Add Team
+            </Link>
+            <Link to="/teams-list" className={`sb-sub-item ${path === '/teams-list' ? 'active' : ''}`}>
+              Teams List
+            </Link>
+          </div>
+        )}
+      </div>
 
-      <Link to="/tasks" className={`sb-nav-item ${path === '/tasks' ? 'active' : ''}`}>
-        <ClipboardList size={20} /> Tasks
-      </Link>
-
+      {/* Tasks Dropdown */}
+      <div>
+        <div 
+          onClick={() => setTasksOpen(!tasksOpen)} 
+          className={`sb-nav-item ${(path === '/tasks' || path === '/tasks-list') ? 'active' : ''}`}
+          style={{ justifyContent: 'space-between', cursor: 'pointer' }}
+        >
+          <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <ClipboardList size={20} /> Tasks
+          </span>
+          {tasksOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+        </div>
+        {tasksOpen && (
+          <div className="sb-sub-menu">
+            <Link to="/tasks" className={`sb-sub-item ${path === '/tasks' ? 'active' : ''}`}>
+              Create Task
+            </Link>
+            <Link to="/tasks-list" className={`sb-sub-item ${path === '/tasks-list' ? 'active' : ''}`}>
+              Tasks List
+            </Link>
+          </div>
+        )}
+      </div>
 
       <div style={{ flex: 1 }}></div>
-
-      
     </div>
   );
 }

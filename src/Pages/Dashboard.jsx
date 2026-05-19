@@ -51,6 +51,18 @@ export default function Dashboard() {
   const waitingTasks = tasks.filter((task) => task.status === "waiting").length;
   const completedTasks = tasks.filter((task) => task.status === "completed").length;
 
+  const upcomingTasks = tasks.filter((task) => {
+    const targetDate = task.nextCleaning || task.date;
+    if (!targetDate) return false;
+    const dueDate = new Date(targetDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    dueDate.setHours(0, 0, 0, 0);
+    const diffTime = dueDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays >= 0 && diffDays <= 10;
+  });
+
   const StatCard = ({ title, value, icon, suffix, theme }) => (
     <div className={`db-stat db-stat-${theme}`}>
       <div className="db-stat-icon-wrapper">
@@ -76,8 +88,9 @@ export default function Dashboard() {
 
   const tasksByDate = {};
   tasks.forEach(task => {
-    if (task.nextCleaning) {
-      const d = new Date(task.nextCleaning);
+    const targetDate = task.nextCleaning || task.date;
+    if (targetDate) {
+      const d = new Date(targetDate);
       if (d.getMonth() === currentDate.getMonth() && d.getFullYear() === currentDate.getFullYear()) {
         const dateNum = d.getDate();
         if (!tasksByDate[dateNum]) tasksByDate[dateNum] = [];
@@ -120,7 +133,7 @@ export default function Dashboard() {
           font-weight: 700;
           letter-spacing: 2px;
           text-transform: uppercase;
-          color: #B45309;
+          color: #316398;
           display: flex;
           align-items: center;
           gap: 8px;
@@ -130,7 +143,7 @@ export default function Dashboard() {
           content: '';
           width: 24px;
           height: 2px;
-          background: #B45309;
+          background: #316398;
           display: inline-block;
           border-radius: 2px;
         }
@@ -151,7 +164,7 @@ export default function Dashboard() {
         }
 
         .db-primary-btn {
-          background: #0f172a;
+          background: #316398;
           color: #fff;
           border: none;
           padding: 0.75rem 1.5rem;
@@ -166,7 +179,7 @@ export default function Dashboard() {
           transition: background 0.2s;
         }
         .db-primary-btn:hover {
-          background: #1e293b;
+          background: #4596ab;
         }
 
         /* STATS */
@@ -296,7 +309,7 @@ export default function Dashboard() {
         .db-card-title-dot {
           width: 8px;
           height: 8px;
-          background: #F59E0B;
+          background: #4596ab;
           border-radius: 50%;
           
         }
@@ -360,7 +373,6 @@ export default function Dashboard() {
         }
 
         .db-panels-badge {
-          background: #f1f5f9;
           padding: 4px 10px;
           border-radius: 6px;
           font-size: 13px;
@@ -489,7 +501,7 @@ export default function Dashboard() {
           background: #f8fafc;
         }
         .db-cal-cell.today .db-cal-date {
-          background: #F59E0B;
+          background: #4596ab;
           color: #fff;
           font-weight: 700;
         }
@@ -542,6 +554,25 @@ export default function Dashboard() {
             grid-template-columns: 1fr;
           }
         }
+
+        .db-empty-state {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 3rem;
+          color: #64748b;
+          font-weight: 500;
+        }
+        .db-empty-icon {
+          font-size: 2.5rem;
+          margin-bottom: 0.75rem;
+        }
+        .db-empty-text {
+          font-family: 'Outfit', sans-serif;
+          font-size: 16px;
+          color: #64748b;
+        }
       `}</style>
 
       <div className="db-header">
@@ -562,6 +593,76 @@ export default function Dashboard() {
         <StatCard title="Waiting for Confirmation" value={waitingTasks} suffix="tasks" icon={<Clock3 size={24} />} theme="blue" />
         <StatCard title="Completed Tasks" value={completedTasks} suffix="tasks" icon={<CheckCircle size={24} />} theme="green" />
         <StatCard title="Avg Members Per Team" value={averageMembersPerTeam} suffix="members" icon={<Users size={24} />} theme="indigo" />
+      </div>
+
+      
+      <div className="db-card" style={{ marginBottom: '2.5rem' }}>
+        <div className="db-card-title">
+          <div className="db-card-title-left">
+            <span className="db-card-title-dot" style={{ backgroundColor: '#ef4444' }}></span>
+            Upcoming Tasks Due 
+          </div>
+          <span className="db-card-badge" style={{ backgroundColor: '#fee2e2', color: '#ef4444' }}>
+            {upcomingTasks.length} Dues
+          </span>
+        </div>
+        {upcomingTasks.length === 0 ? (
+          <div className="db-empty-state">
+            <div className="db-empty-icon">🎉</div>
+            <div className="db-empty-text">No upcoming tasks due</div>
+          </div>
+        ) : (
+          <div className="db-table-wrapper">
+            <table className="db-table">
+              <thead>
+                <tr>
+                  <th>Location</th>
+                  <th>Client</th>
+                  <th>Team</th>
+                  <th>Panels</th>
+                  <th>Days Left</th>
+                  <th>Cleaning Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {upcomingTasks.map((task) => {
+                  const dueDate = new Date(task.nextCleaning || task.date);
+                  const today = new Date();
+                  today.setHours(0, 0, 0, 0);
+                  dueDate.setHours(0, 0, 0, 0);
+                  const diffTime = dueDate.getTime() - today.getTime();
+                  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                  return (
+                    <tr key={task._id}>
+                      <td className="db-td-location">
+                        <div className="db-loc-flex">
+                          <MapPin size={14} className="db-loc-icon"/>
+                          {task.location}
+                        </div>
+                      </td>
+                      <td>{task.client?.name || "N/A"}</td>
+                      <td>{task.assignedTeam?.name || "N/A"}</td>
+                      <td><span className="db-panels-badge">{task.panels} Panels</span></td>
+                      
+                      <td>
+                        <span style={{ 
+                          fontWeight: '700',
+                          color: diffDays <= 2 ? '#ef4444' : diffDays <= 5 ? '#f59e0b' : '#10b981'
+                        }}>
+                          {diffDays === 0 ? "Due Today" : diffDays === 1 ? "1 day left" : `${diffDays} days left`}
+                        </span>
+                      </td>
+                      <td className="db-date-td">
+                        {new Date(task.nextCleaning || task.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       <div className="db-overview-bottom">
@@ -635,7 +736,7 @@ export default function Dashboard() {
                     <th>Team</th>
                     <th>Panels</th>
                     <th>Status</th>
-                    <th>Next Date</th>
+                    <th>Cleaning Date</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -661,7 +762,7 @@ export default function Dashboard() {
                         </span>
                       </td>
                       <td className="db-date-td">
-                        {task.nextCleaning ? new Date(task.nextCleaning).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "N/A"}
+                        {task.nextCleaning || task.date ? new Date(task.nextCleaning || task.date).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "N/A"}
                       </td>
                       <td>
                         <button className="db-more-btn"><MoreVertical size={16} /></button>

@@ -39,7 +39,7 @@ export default function Landing({ onLogin, isAuthenticated }) {
         left: '-10%',
         width: '50vw',
         height: '50vw',
-        background: 'radial-gradient(circle, rgba(245,158,11,0.08) 0%, rgba(255,255,255,0) 60%)',
+        background: 'radial-gradient(circle, rgba(49,99,152,0.08) 0%, rgba(255,255,255,0) 60%)',
         borderRadius: '50%',
         filter: 'blur(60px)',
         zIndex: 0
@@ -88,13 +88,13 @@ export default function Landing({ onLogin, isAuthenticated }) {
           width: 76px;
           height: 76px;
           border-radius: 22px;
-          background: #fffbeb;
-          border: 1px solid #fde68a;
+          background: #ebf4fa;
+          border: 1px solid #cbd5e1;
           display: flex;
           align-items: center;
           justify-content: center;
           margin: 0 auto 2rem auto;
-          box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.15);
+          box-shadow: 0 10px 25px -5px rgba(49, 99, 152, 0.15);
         }
 
         .login-title {
@@ -146,8 +146,8 @@ export default function Landing({ onLogin, isAuthenticated }) {
 
         .input-field:focus {
           outline: none;
-          border-color: #f59e0b;
-          box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
+          border-color: #4596ab;
+          box-shadow: 0 0 0 4px rgba(49, 99, 152, 0.15);
         }
 
         .login-btn {
@@ -155,7 +155,7 @@ export default function Landing({ onLogin, isAuthenticated }) {
           padding: 1.1rem;
           border: none;
           border-radius: 16px;
-          background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+          background: linear-gradient(135deg, #4596ab 0%, #316398 100%);
           color: #ffffff;
           font-size: 1.05rem;
           font-weight: 600;
@@ -163,7 +163,7 @@ export default function Landing({ onLogin, isAuthenticated }) {
           cursor: pointer;
           transition: all 0.3s ease;
           margin-top: 1.5rem;
-          box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.4);
+          box-shadow: 0 10px 25px -5px rgba(49, 99, 152, 0.4);
           position: relative;
           overflow: hidden;
         }
@@ -182,7 +182,7 @@ export default function Landing({ onLogin, isAuthenticated }) {
 
         .login-btn:hover {
           transform: translateY(-2px);
-          box-shadow: 0 15px 30px -5px rgba(245, 158, 11, 0.5);
+          box-shadow: 0 15px 30px -5px rgba(49, 99, 152, 0.5);
         }
 
         .login-btn:hover::after {
@@ -191,7 +191,7 @@ export default function Landing({ onLogin, isAuthenticated }) {
 
         .login-btn:active {
           transform: translateY(0);
-          box-shadow: 0 5px 15px -5px rgba(245, 158, 11, 0.4);
+          box-shadow: 0 5px 15px -5px rgba(49, 99, 152, 0.4);
         }
 
         .error-box {
@@ -242,7 +242,7 @@ export default function Landing({ onLogin, isAuthenticated }) {
               height="36"
               viewBox="0 0 24 24"
               fill="none"
-              stroke="#F59E0B"
+              stroke="#316398"
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"

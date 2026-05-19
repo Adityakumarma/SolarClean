@@ -5,6 +5,9 @@ import Sidebar from './Components/Sidebar'
 import Tasks from './Pages/Tasks'
 import Teams from './Pages/Teams'
 import Client from './Pages/Client'
+import ClientList from './Pages/ClientList'
+import TasksList from './Pages/TasksList'
+import TeamsLists from './Pages/TeamsLists'
 import Dashboard from './Pages/Dashboard'
 import AdvancedDashboard from './Pages/AdvancedDashboard'
 import LandingPage from './Pages/LandingPage'
@@ -101,8 +104,11 @@ function App() {
         <Route path='/dashboard' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Dashboard /></ProtectedRoute>} />
         <Route path='/advanced-dashboard' element={<ProtectedRoute isAuthenticated={isAuthenticated}><AdvancedDashboard /></ProtectedRoute>} />
         <Route path='/tasks' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Tasks /></ProtectedRoute>} />
+        <Route path='/tasks-list' element={<ProtectedRoute isAuthenticated={isAuthenticated}><TasksList /></ProtectedRoute>} />
         <Route path='/teams' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Teams /></ProtectedRoute>} />
+        <Route path='/teams-list' element={<ProtectedRoute isAuthenticated={isAuthenticated}><TeamsLists /></ProtectedRoute>} />
         <Route path='/clients' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Client /></ProtectedRoute>} />
+        <Route path='/clients-list' element={<ProtectedRoute isAuthenticated={isAuthenticated}><ClientList /></ProtectedRoute>} />
       </Routes>
     </Layout>
   )

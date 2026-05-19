@@ -12,6 +12,7 @@ export default function AdvancedDashboard() {
     const [fromDate, setFromDate] = useState("");
     const [toDate, setToDate] = useState("");
     const [searchClicked, setSearchClicked] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,7 +40,7 @@ export default function AdvancedDashboard() {
         { name: "Completed", value: completedTasks }
     ];
 
-    const COLORS = ["#B45309", "#3b82f6", "#16a34a"];
+    const COLORS = ["#F59E0B", "#3b82f6", "#16a34a"];
 
     const teamMembersChart = useMemo(() => {
         return teams.map((team) => ({
@@ -51,8 +52,9 @@ export default function AdvancedDashboard() {
     const dueTasks = useMemo(() => {
         if (!searchClicked || !fromDate || !toDate) return [];
         return tasks.filter((task) => {
-            if (!task.nextCleaning) return false;
-            const nextDate = new Date(task.nextCleaning);
+            const targetDate = task.nextCleaning || task.date;
+            if (!targetDate) return false;
+            const nextDate = new Date(targetDate);
             const from = new Date(fromDate);
             const to = new Date(toDate);
             from.setHours(0, 0, 0, 0);
@@ -60,6 +62,16 @@ export default function AdvancedDashboard() {
             return nextDate >= from && nextDate <= to;
         });
     }, [tasks, fromDate, toDate, searchClicked]);
+
+    // Reset pagination page on new search
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [fromDate, toDate, searchClicked]);
+
+    const itemsPerPage = 4;
+    const totalPages = Math.ceil(dueTasks.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedTasks = dueTasks.slice(startIndex, startIndex + itemsPerPage);
 
 
     const getDaysUntil = (dateStr) => {
@@ -154,7 +166,7 @@ export default function AdvancedDashboard() {
                 }
 
                 .db-search-btn {
-                    background: #0F172A;
+                    background: #316398;
                     color: #fff;
                     border: none;
                     border-radius: 10px;
@@ -167,7 +179,7 @@ export default function AdvancedDashboard() {
                     transition: background 0.2s, transform 0.1s;
                 }
 
-                .db-search-btn:hover { background: #1e293b; }
+                .db-search-btn:hover { background: #4596ab; }
                 .db-search-btn:active { transform: scale(0.98); }
 
                 .db-clear-btn {
@@ -201,7 +213,7 @@ export default function AdvancedDashboard() {
                 }
 
                 .db-results-count {
-                    background: #0f172a;
+                    background: #316398;
                     color: #fff;
                     font-size: 11px;
                     font-weight: 700;
@@ -383,7 +395,7 @@ export default function AdvancedDashboard() {
                 }
 
                 .db-card-title {
-                    font-family: "Oswald", sans-serif;
+                    font-family: 'Outfit', sans-serif;
                     font-size: 1.1rem;
                     font-weight: 700;
                     color: #0F172A;
@@ -396,7 +408,7 @@ export default function AdvancedDashboard() {
                 .db-card-title-dot {
                     width: 8px;
                     height: 8px;
-                    background: #F59E0B;
+                    background: #4596ab;
                     border-radius: 50%;
                 }
 
@@ -435,13 +447,51 @@ export default function AdvancedDashboard() {
                     .db-due-grid { grid-template-columns: 1fr; }
                     .db-date-input { width: 340px; }
                 }
+
+                /* ── Pagination ── */
+                .db-pagination {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1.5rem;
+                    margin-top: 2rem;
+                    font-family: 'DM Sans', sans-serif;
+                }
+
+                .db-pag-btn {
+                    background: #fff;
+                    color: #0f172a;
+                    border: 1.5px solid #e2e8f0;
+                    border-radius: 8px;
+                    padding: 0.5rem 1.2rem;
+                    font-size: 14px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+
+                .db-pag-btn:hover:not(:disabled) {
+                    background: #f8fafc;
+                    border-color: #cbd5e1;
+                }
+
+                .db-pag-btn:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+
+                .db-pag-info {
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #64748b;
+                }
             `}</style>
 
 
             <div className="db-header" style={{ marginBottom: '2.5rem', paddingBottom: '1.5rem', borderBottom: '1px solid #e2e8f0' }}>
                 <div>
-                    <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#B45309', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem' }}>
-                        <span style={{ width: '24px', height: '2px', background: '#B45309', borderRadius: '2px' }}></span>
+                    <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: '#316398', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.5rem' }}>
+                        <span style={{ width: '24px', height: '2px', background: '#316398', borderRadius: '2px' }}></span>
                         Analytics
                     </div>
                     <h1 style={{ fontFamily: '"Outfit", sans-serif', fontSize: '2.5rem', fontWeight: 800, color: '#0F172A', letterSpacing: '-1px', margin: 0 }}>Advanced Dashboard</h1>
@@ -511,8 +561,9 @@ export default function AdvancedDashboard() {
                             </div>
 
                             <div className="db-due-grid">
-                                {dueTasks.map((task, i) => {
-                                    const days = getDaysUntil(task.nextCleaning);
+                                {paginatedTasks.map((task, i) => {
+                                    const targetDate = task.nextCleaning || task.date;
+                                    const days = getDaysUntil(targetDate);
                                     const urgency = getUrgencyStyle(days);
                                     const cardClass = days < 0 ? 'urgent' : days === 0 ? 'today' : days <= 2 ? 'soon' : 'normal';
 
@@ -541,7 +592,7 @@ export default function AdvancedDashboard() {
                                                     <path d="M5 1v3M11 1v3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
                                                 </svg>
                                                 <span className="db-due-date-text">
-                                                    Due {new Date(task.nextCleaning).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                                                    Due {new Date(targetDate).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
                                                 </span>
                                             </div>
 
@@ -568,6 +619,28 @@ export default function AdvancedDashboard() {
                                     );
                                 })}
                             </div>
+
+                            {totalPages > 1 && (
+                                <div className="db-pagination">
+                                    <button 
+                                        className="db-pag-btn" 
+                                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                        disabled={currentPage === 1}
+                                    >
+                                        &larr; Prev
+                                    </button>
+                                    <span className="db-pag-info">
+                                        Page {currentPage} of {totalPages}
+                                    </span>
+                                    <button 
+                                        className="db-pag-btn" 
+                                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                        disabled={currentPage === totalPages}
+                                    >
+                                        Next &rarr;
+                                    </button>
+                                </div>
+                            )}
                         </>
                     )
                 )}
