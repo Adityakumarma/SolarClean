@@ -438,13 +438,15 @@ export default function TasksList() {
                   <line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" />
                   <line x1="3" y1="10" x2="21" y2="10" />
                 </svg>
-                Next cleaning:&nbsp;<strong>{new Date(task.nextCleaning || task.date).toLocaleDateString("en-IN",
-                  {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric"
+                 Next cleaning:&nbsp;<strong>
+                  {task.status === "pending" || task.status === "waiting"
+                    ? "N/A"
+                    : new Date(task.nextCleaning || task.date).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric"
+                      })
                   }
-                )}
                 </strong>
               </div>
 
