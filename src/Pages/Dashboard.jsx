@@ -549,12 +549,6 @@ export default function Dashboard() {
           padding-left: 2px;
         }
 
-        @media (max-width: 1024px) {
-          .db-stats-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
         .db-empty-state {
           display: flex;
           flex-direction: column;
@@ -572,6 +566,86 @@ export default function Dashboard() {
           font-family: 'Outfit', sans-serif;
           font-size: 16px;
           color: #64748b;
+        }
+
+        /* ── RESPONSIVE STYLES ── */
+        @media (max-width: 1024px) {
+          .db-stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .db-page {
+            padding: 1.5rem 1rem;
+          }
+          .db-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+          }
+          .db-header h1 {
+            font-size: 2rem;
+          }
+          .db-calendar-card {
+            padding: 1.25rem;
+          }
+          .db-card {
+            padding: 1.25rem;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .db-stats-grid {
+            grid-template-columns: 1fr;
+          }
+          .db-cal-task-pill {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            padding: 0;
+            border: none;
+            display: inline-block;
+            overflow: hidden;
+            color: transparent !important;
+            background: #f59e0b !important;
+            border-left: none !important;
+          }
+          .db-cal-task-pill.completed {
+            background: #22c55e !important;
+          }
+          .db-cal-task-pill.waiting {
+            background: #3b82f6 !important;
+          }
+          .db-cal-tasks {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 3px;
+            justify-content: center;
+            margin-top: 2px;
+          }
+          .db-cal-cell {
+            min-height: 48px;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 4px 2px;
+          }
+          .db-cal-date {
+            margin-bottom: 2px;
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
+          }
+          .db-cal-more {
+            display: none;
+          }
+          .db-calendar-header {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-start;
+          }
         }
       `}</style>
 
