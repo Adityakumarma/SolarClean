@@ -51,9 +51,9 @@ export default function Loader({ message = "Loading data...", fullPage = false }
         .loader-sun {
           width: 38px;
           height: 38px;
-          background: radial-gradient(circle, #f59e0b 30%, #ea580c 100%);
+          background: radial-gradient(circle, #6eb7c7 30%, #4596ab 100%);
           border-radius: 50%;
-          box-shadow: 0 0 25px rgba(245, 158, 11, 0.5);
+          box-shadow: 0 0 25px rgba(69, 150, 171, 0.5);
           animation: pulse-loader 1.8s ease-in-out infinite;
           display: flex;
           align-items: center;
@@ -66,8 +66,8 @@ export default function Loader({ message = "Loading data...", fullPage = false }
         }
 
         @keyframes pulse-loader {
-          0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
-          50% { transform: scale(1.1); box-shadow: 0 0 28px rgba(245, 158, 11, 0.7); }
+          0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(69, 150, 171, 0.4); }
+          50% { transform: scale(1.1); box-shadow: 0 0 28px rgba(69, 150, 171, 0.7); }
         }
 
         .loader-text {
