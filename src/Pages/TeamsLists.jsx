@@ -2,15 +2,18 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from 'sweetalert2'
+import Loader from "../Components/Loader";
 
 const API = "https://solarcleanbackend.onrender.com/api";
 
 export default function TeamsLists() {
   const navigate = useNavigate();
   const [teams, setTeams] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchTeams = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(`${API}/teams`);
       setTeams(res.data);
     } catch (err) {
@@ -19,6 +22,8 @@ export default function TeamsLists() {
         title: "Failed to load teams",
         icon: "error"
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -27,6 +32,10 @@ export default function TeamsLists() {
   }, []);
 
   const totalMembers = teams.reduce((acc, t) => acc + t.members.length, 0);
+
+  if (loading) {
+    return <Loader message="Loading team Details..." />;
+  }
 
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#f8fafc", minHeight: "100vh" }}>

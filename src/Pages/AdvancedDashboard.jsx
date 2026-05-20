@@ -4,6 +4,7 @@ import {
     BarChart, Bar, PieChart, Pie, Cell, Tooltip, ResponsiveContainer,
     XAxis, YAxis, CartesianGrid, Legend
 } from "recharts";
+import Loader from '../Components/Loader';
 
 export default function AdvancedDashboard() {
     const [teams, setTeams] = useState([]);
@@ -13,10 +14,12 @@ export default function AdvancedDashboard() {
     const [toDate, setToDate] = useState("");
     const [searchClicked, setSearchClicked] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoading(true);
                 const teamRes = await getTeams();
                 const clientRes = await getClients();
                 const taskRes = await getTasks();
@@ -25,6 +28,8 @@ export default function AdvancedDashboard() {
                 setTasks(taskRes.data);
             } catch (err) {
                 console.log(err);
+            } finally {
+                setLoading(false);
             }
         };
         fetchData();
@@ -88,6 +93,10 @@ export default function AdvancedDashboard() {
         if (days <= 2) return { color: '#d97706', bg: '#fffbeb', border: '#fde68a', label: `${days}d left` };
         return { color: '#16a34a', bg: '#f0fdf4', border: '#bbf7d0', label: `${days}d left` };
     };
+
+    if (loading) {
+        return <Loader message="Loading dashboard statistics..." />;
+    }
 
     return (
         <div className="db-advanced-charts fade-in" style={{ padding: '2.5rem 3rem' }}>

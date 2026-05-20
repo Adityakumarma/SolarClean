@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from 'sweetalert2'
+import Loader from "../Components/Loader";
 
 const API = "https://solarcleanbackend.onrender.com/api";
 
@@ -10,6 +11,7 @@ export default function TasksList() {
   const [teams, setTeams] = useState([]);
   const [clients, setClients] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [showJobModal, setShowJobModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -22,6 +24,7 @@ export default function TasksList() {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const t = await axios.get(`${API}/teams`);
       const c = await axios.get(`${API}/clients`);
       const tk = await axios.get(`${API}/tasks`);
@@ -30,6 +33,8 @@ export default function TasksList() {
       setTasks(tk.data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -111,6 +116,10 @@ export default function TasksList() {
   const pending = tasks.filter((t) => t.status == "pending").length;
   const waiting = tasks.filter((t) => t.status === "waiting").length;
   const completed = tasks.filter((t) => t.status === "completed").length;
+
+  if (loading) {
+    return <Loader message="Loading task schedules..." />;
+  }
 
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#f8fafc", minHeight: "100vh" }}>

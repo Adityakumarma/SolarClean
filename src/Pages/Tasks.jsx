@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from 'sweetalert2'
+import Loader from "../Components/Loader";
 
 const API = "https://solarcleanbackend.onrender.com/api";
 
@@ -9,6 +10,7 @@ export default function Tasks() {
   const navigate = useNavigate();
   const [teams, setTeams] = useState([]);
   const [clients, setClients] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [form, setForm] = useState({
     location: "",
@@ -21,12 +23,15 @@ export default function Tasks() {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const t = await axios.get(`${API}/teams`);
       const c = await axios.get(`${API}/clients`);
       setTeams(t.data);
       setClients(c.data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,6 +70,10 @@ export default function Tasks() {
       });
     }
   };
+
+  if (loading) {
+    return <Loader message="Loading task schedules..." />;
+  }
 
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#f8fafc", minHeight: "100vh" }}>

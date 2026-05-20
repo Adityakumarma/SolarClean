@@ -17,15 +17,18 @@ import {
   getClients,
   getTasks
 } from "../services/api";
+import Loader from "../Components/Loader";
 
 export default function Dashboard() {
   const [teams, setTeams] = useState([]);
   const [clients, setClients] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const teamRes = await getTeams();
       const clientRes = await getClients();
       const taskRes = await getTasks();
@@ -35,6 +38,8 @@ export default function Dashboard() {
       setTasks(taskRes.data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,6 +103,10 @@ export default function Dashboard() {
       }
     }
   });
+
+  if (loading) {
+    return <Loader message="Loading Dashboard data..." />;
+  }
 
   return (
     <div className="db-page fade-in">

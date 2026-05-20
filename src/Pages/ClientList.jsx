@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from 'sweetalert2'
+import Loader from "../Components/Loader";
 
 const API = "https://solarcleanbackend.onrender.com/api";
 
@@ -11,9 +12,11 @@ export default function ClientList() {
   const [tasks, setTasks] = useState([]);
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedJobCard, setSelectedJobCard] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchClients = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(`${API}/clients`);
       const tk = await axios.get(`${API}/tasks`);
 
@@ -25,6 +28,8 @@ export default function ClientList() {
         title: "Failed to load clients",
         icon: "error"
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,6 +83,10 @@ export default function ClientList() {
       console.log(err);
     }
   };
+
+  if (loading) {
+    return <Loader message="Loading clients..." />;
+  }
 
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#f8fafc", minHeight: "100vh" }}>
