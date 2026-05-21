@@ -154,7 +154,7 @@ export default function TeamsLists() {
             <div className="tm-stat-val">{totalMembers}<span>members</span></div>
           </div>
           <div className="tm-stat">
-            <div className="tm-stat-label">Avg. per Team</div>
+            <div className="tm-stat-label">Avg. Members per Team</div>
             <div className="tm-stat-val">
               {teams.length ? Math.round(totalMembers / teams.length) : 0}
               <span>members</span>
