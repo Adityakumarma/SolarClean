@@ -662,7 +662,7 @@ export default function Dashboard() {
         <div>
           <div className="db-header-eyebrow">Overview</div>
           <h1>Dashboard</h1>
-          <p>Solar Cleaning Management Overview</p>
+          <p>Sunbird Power Solutions Overview</p>
         </div>
         
       </div>

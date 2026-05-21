@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import companyLogo from "../assets/companylogo.png";
+
 
 export default function Landing({ onLogin, isAuthenticated }) {
   const [username, setUsername] = useState("");
@@ -236,28 +238,18 @@ export default function Landing({ onLogin, isAuthenticated }) {
 
       <div className="login-wrapper">
         <div className="login-card">
-          <div className="logo-container">
-            <svg
-              width="36"
-              height="36"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#316398"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="5" />
-              <path d="M12 1v2" />
-              <path d="M12 21v2" />
-              <path d="M4.22 4.22l1.42 1.42" />
-              <path d="M18.36 18.36l1.42 1.42" />
-              <path d="M1 12h2" />
-              <path d="M21 12h2" />
-            </svg>
+          <div className="logo-container" style={{ background: "transparent", border: "none", boxShadow: "none", width: "100%", maxWidth: "250px", height: "auto", margin: "0 auto 2.5rem auto" }}>
+            <img
+              src={companyLogo}
+              alt="Sunbird Power Solutions"
+              style={{
+                width: "100%",
+                height: "auto",
+                filter: "invert(1)",
+                display: "block"
+              }}
+            />
           </div>
-
-          <h1 className="login-title">Solar Clean</h1>
           <p className="login-subtitle">
             Login to manage tasks, teams, and clients securely.
           </p>
@@ -304,7 +296,7 @@ export default function Landing({ onLogin, isAuthenticated }) {
           </form>
 
           <div className="bottom-text">
-            Solar Cleaning Management System
+            Sunbird Power Solutions
           </div>
         </div>
       </div>

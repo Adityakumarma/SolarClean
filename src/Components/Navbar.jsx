@@ -1,5 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import companyLogo from "../assets/companylogo.png";
+
 
 export default function Navbar() {
   const location = useLocation();
@@ -272,13 +274,16 @@ export default function Navbar() {
       <nav className="nb-root">
         <div className="nb-inner">
           <Link to="/" className="nb-logo">
-            <div className="nb-logo-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="4" />
-                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-              </svg>
-            </div>
-            Solar Clean
+            <img
+              src={companyLogo}
+              alt="Sunbird Power Solutions"
+              style={{
+                height: "38px",
+                width: "auto",
+                filter: "invert(1)",
+                display: "block"
+              }}
+            />
           </Link>
 
           <ul className="nb-links">
