@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const API = axios.create({
-  // baseURL: "http://localhost:5000/api"
   baseURL: "https://solarcleanbackend.onrender.com/api"
 });
 
@@ -23,4 +22,10 @@ export const createClient = (formData) => API.post("/clients",formData,{
   headers:{"Content-Type":"multipart/form-data"}
 });
 export const getClients = () =>API.get("/clients");
-export const deleteClients = (id) =>API.delete(`/clients/${id}`)
+export const deleteClients = (id) =>API.delete(`/clients/${id}`);
+
+// Quotation APIs
+export const getQuotations = () => API.get("/quotations");
+export const getQuotationById = (id) => API.get(`/quotations/${id}`);
+export const createQuotation = (data) => API.post("/quotations", data);
+export const deleteQuotation = (id) => API.delete(`/quotations/${id}`);

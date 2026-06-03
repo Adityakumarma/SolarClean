@@ -11,6 +11,8 @@ import TeamsLists from './Pages/TeamsLists'
 import Dashboard from './Pages/Dashboard'
 import AdvancedDashboard from './Pages/AdvancedDashboard'
 import LandingPage from './Pages/LandingPage'
+import CreateQuotation from './Pages/CreateQuotation'
+import QuotationHistory from './Pages/QuotationHistory'
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -109,6 +111,8 @@ function App() {
         <Route path='/teams-list' element={<ProtectedRoute isAuthenticated={isAuthenticated}><TeamsLists /></ProtectedRoute>} />
         <Route path='/clients' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Client /></ProtectedRoute>} />
         <Route path='/clients-list' element={<ProtectedRoute isAuthenticated={isAuthenticated}><ClientList /></ProtectedRoute>} />
+        <Route path='/quotations/create' element={<ProtectedRoute isAuthenticated={isAuthenticated}><CreateQuotation /></ProtectedRoute>} />
+        <Route path='/quotations/history' element={<ProtectedRoute isAuthenticated={isAuthenticated}><QuotationHistory /></ProtectedRoute>} />
       </Routes>
     </Layout>
   )

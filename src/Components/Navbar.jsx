@@ -368,6 +368,28 @@ export default function Navbar() {
                 </li>
               </ul>
             </li>
+
+            <li className="nb-dropdown-container">
+              <span className={`nb-link${isSectionActive(['/quotations/create', '/quotations/history']) ? " active" : ""}`}>
+                <span className="nb-link-dot"></span>
+                Quotations
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '2px' }}>
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </span>
+              <ul className="nb-dropdown-menu">
+                <li>
+                  <Link to="/quotations/create" className={`nb-dropdown-item${isActive('/quotations/create') ? " active" : ""}`}>
+                    Create Quotation
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/quotations/history" className={`nb-dropdown-item${isActive('/quotations/history') ? " active" : ""}`}>
+                    Quotation History
+                  </Link>
+                </li>
+              </ul>
+            </li>
           </ul>
 
           <div className="nb-right">
@@ -420,6 +442,14 @@ export default function Navbar() {
           </Link>
           <Link to="/tasks-list" className={`nb-mobile-link sub${isActive('/tasks-list') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
             Tasks List
+          </Link>
+
+          <div className="nb-mobile-section-title">Quotations</div>
+          <Link to="/quotations/create" className={`nb-mobile-link sub${isActive('/quotations/create') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+            Create Quotation
+          </Link>
+          <Link to="/quotations/history" className={`nb-mobile-link sub${isActive('/quotations/history') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+            Quotation History
           </Link>
           
           <div className="nb-mobile-divider"></div>

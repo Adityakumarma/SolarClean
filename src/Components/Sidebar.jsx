@@ -7,7 +7,8 @@ import {
   Users,
   Building2,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  FileText
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -17,6 +18,7 @@ export default function Sidebar() {
   const [clientsOpen, setClientsOpen] = useState(true);
   const [teamsOpen, setTeamsOpen] = useState(true);
   const [tasksOpen, setTasksOpen] = useState(true);
+  const [quotationsOpen, setQuotationsOpen] = useState(true);
 
   return (
     <div className="app-sidebar">
@@ -226,6 +228,30 @@ export default function Sidebar() {
             </Link>
             <Link to="/tasks-list" className={`sb-sub-item ${path === '/tasks-list' ? 'active' : ''}`}>
               View Tasks
+            </Link>
+          </div>
+        )}
+      </div>
+
+      
+      <div>
+        <div 
+          onClick={() => setQuotationsOpen(!quotationsOpen)} 
+          className={`sb-nav-item ${(path === '/quotations/create' || path === '/quotations/history') ? 'active' : ''}`}
+          style={{ justifyContent: 'space-between', cursor: 'pointer' }}
+        >
+          <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <FileText size={20} /> Quotations
+          </span>
+          {quotationsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+        </div>
+        {quotationsOpen && (
+          <div className="sb-sub-menu">
+            <Link to="/quotations/create" className={`sb-sub-item ${path === '/quotations/create' ? 'active' : ''}`}>
+              Create Quotation
+            </Link>
+            <Link to="/quotations/history" className={`sb-sub-item ${path === '/quotations/history' ? 'active' : ''}`}>
+              Quotation History
             </Link>
           </div>
         )}
