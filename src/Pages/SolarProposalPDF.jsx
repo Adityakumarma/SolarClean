@@ -688,7 +688,7 @@ export default function SolarProposalPDF({ data, logo }) {
           </View>
           <View style={styles.bulletItem}>
             <Text style={styles.bulletDot}>•</Text>
-            <Text style={styles.bulletText}>KSEB Registration Fee is Excluded ({data.registrationFee}/-) (80%  of the amount is refundable to the Customer from KSEB within 6 months after installation).</Text>
+            <Text style={styles.bulletText}>KSEB Registration Fee is Excluded ({data.registrationFee}/-) (80% of the amount is refundable to the Customer from KSEB within 6 months after installation).</Text>
           </View>
           <View style={styles.bulletItem}>
             <Text style={styles.bulletDot}>•</Text>
