@@ -8,7 +8,8 @@ import {
   Building2,
   ChevronDown,
   ChevronRight,
-  FileText
+  FileText,
+  Sparkles
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -159,6 +160,10 @@ export default function Sidebar() {
       
       <Link to="/advanced-dashboard" className={`sb-nav-item ${path === '/advanced-dashboard' ? 'active' : ''}`}>
         <LineChart size={20} /> Advanced Dashboard
+      </Link>
+
+      <Link to="/leads" className={`sb-nav-item ${path === '/leads' ? 'active' : ''}`}>
+        <Sparkles size={20} /> Lead Enquiries
       </Link>
 
       

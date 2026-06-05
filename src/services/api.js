@@ -29,3 +29,9 @@ export const getQuotations = () => API.get("/quotations");
 export const getQuotationById = (id) => API.get(`/quotations/${id}`);
 export const createQuotation = (data) => API.post("/quotations", data);
 export const deleteQuotation = (id) => API.delete(`/quotations/${id}`);
+
+// Lead APIs
+export const getLeads = () => API.get("/leads");
+export const createLead = (data) => API.post("/leads", data);
+export const updateLead = (id, data) => API.put(`/leads/${id}`, data);
+export const deleteLead = (id) => API.delete(`/leads/${id}`);

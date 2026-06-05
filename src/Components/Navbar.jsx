@@ -175,8 +175,31 @@ export default function Navbar() {
           gap: 6px;
           text-decoration: none;
           white-space: nowrap;
+          transition: background 0.15s;
         }
         .nb-cta:hover { background: #4596ab; }
+
+        .nb-logout-btn {
+          background: transparent;
+          color: #64748b;
+          border: 1px solid #cbd5e1;
+          padding: 0.55rem 1.25rem;
+          border-radius: 8px;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          white-space: nowrap;
+          transition: all 0.2s;
+        }
+        .nb-logout-btn:hover {
+          background: #f8fafc;
+          color: #ef4444;
+          border-color: #fecaca;
+        }
 
         /* HAMBURGER */
         .nb-hamburger {
@@ -401,6 +424,21 @@ export default function Navbar() {
             </Link>
 
             <button
+              onClick={() => {
+                sessionStorage.removeItem('Admin');
+                window.location.href = '/admin-login';
+              }}
+              className="nb-logout-btn"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+              Logout
+            </button>
+
+            <button
               className="nb-hamburger"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle menu"
@@ -456,6 +494,19 @@ export default function Navbar() {
           <Link to="/tasks" className="nb-mobile-cta" onClick={() => setMenuOpen(false)}>
             + New Task
           </Link>
+          <button
+            onClick={() => {
+              sessionStorage.removeItem('Admin');
+              window.location.href = '/admin-login';
+            }}
+            className="nb-mobile-cta"
+            style={{
+              background: '#ef4444',
+              marginTop: '0.5rem'
+            }}
+          >
+            Logout
+          </button>
         </div>
       </nav>
     </>

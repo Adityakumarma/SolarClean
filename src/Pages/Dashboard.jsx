@@ -9,13 +9,18 @@ import {
   ChevronLeft,
   ChevronRight,
   MoreVertical,
-  MapPin
+  MapPin,
+  Sparkles,
+  UserPlus,
+  Phone,
+  Mail
 } from "lucide-react";
 
 import {
   getTeams,
   getClients,
-  getTasks
+  getTasks,
+  getLeads
 } from "../services/api";
 import Loader from "../Components/Loader";
 
@@ -23,6 +28,7 @@ export default function Dashboard() {
   const [teams, setTeams] = useState([]);
   const [clients, setClients] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [leads, setLeads] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [loading, setLoading] = useState(true);
 
@@ -32,10 +38,12 @@ export default function Dashboard() {
       const teamRes = await getTeams();
       const clientRes = await getClients();
       const taskRes = await getTasks();
+      const leadsRes = await getLeads();
 
       setTeams(teamRes.data);
       setClients(clientRes.data);
       setTasks(taskRes.data);
+      setLeads(leadsRes.data);
     } catch (err) {
       console.log(err);
     } finally {
@@ -55,6 +63,10 @@ export default function Dashboard() {
   const pendingTasks = tasks.filter((task) => task.status === "pending").length;
   const waitingTasks = tasks.filter((task) => task.status === "waiting").length;
   const completedTasks = tasks.filter((task) => task.status === "completed").length;
+
+  const totalLeads = leads.length;
+  const newLeads = leads.filter(lead => lead.status === "new").length;
+  const upcomingFollowUps = leads.filter(lead => lead.status === "new");
 
   const upcomingTasks = tasks.filter((task) => {
     const targetDate = task.nextCleaning || task.date;
@@ -194,7 +206,7 @@ export default function Dashboard() {
         /* STATS */
         .db-stats-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
           gap: 1.25rem;
           margin-bottom: 2.5rem;
         }
@@ -676,6 +688,8 @@ export default function Dashboard() {
         <StatCard title="Waiting for Confirmation" value={waitingTasks} suffix="tasks" icon={<Clock3 size={24} />} theme="blue" />
         <StatCard title="Completed Tasks" value={completedTasks} suffix="tasks" icon={<CheckCircle size={24} />} theme="green" />
         <StatCard title="Avg Members Per Team" value={averageMembersPerTeam} suffix="members" icon={<Users size={24} />} theme="indigo" />
+        <StatCard title="Total Leads" value={totalLeads} suffix="leads" icon={<UserPlus size={24} />} theme="indigo" />
+        <StatCard title="New Leads" value={newLeads} suffix="new" icon={<Sparkles size={24} />} theme="yellow" />
       </div>
 
       
@@ -742,6 +756,65 @@ export default function Dashboard() {
                     </tr>
                   );
                 })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Upcoming Lead Follow-ups */}
+      <div className="db-card" style={{ marginBottom: '2.5rem' }}>
+        <div className="db-card-title">
+          <div className="db-card-title-left">
+            <span className="db-card-title-dot" style={{ backgroundColor: '#f59e0b' }}></span>
+           Lead Enquiry Follow-ups 
+          </div>
+          <span className="db-card-badge" style={{ backgroundColor: '#fef3c7', color: '#d97706' }}>
+            {upcomingFollowUps.length} Pending
+          </span>
+        </div>
+        {upcomingFollowUps.length === 0 ? (
+          <div className="db-empty-state">
+            <div className="db-empty-icon">🎉</div>
+            <div className="db-empty-text">No pending lead follow-ups</div>
+          </div>
+        ) : (
+          <div className="db-table-wrapper">
+            <table className="db-table">
+              <thead>
+                <tr>
+                  <th>Lead Name</th>
+                  <th>Contact Info</th>
+                  <th>Location</th>
+                  <th>Requirement</th>
+                  <th>Enquiry Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {upcomingFollowUps.map((lead) => (
+                  <tr key={lead._id}>
+                    <td className="db-td-location">
+                      <div className="db-loc-flex">
+                        <Users size={14} className="db-loc-icon"/>
+                        {lead.name}
+                      </div>
+                    </td>
+                    <td>
+                      <div  className="font-bold flex  "> <Phone className="mr-2" size={15} /> {lead.phone}</div>
+                      <div className="flex mt-2" style={{ fontSize: '12px', color: '#64748b' }}> <Mail className="mr-2 " size={15} /> {lead.email}</div>
+                    </td>
+                    <td>
+                      <div className="db-loc-flex">
+                        <MapPin size={12} className="db-loc-icon"/>
+                        {lead.location}
+                      </div>
+                    </td>
+                    <td><span className="db-panels-badge" style={{ backgroundColor: '#ebf4fa', color: '#316398' }}>{lead.requirement}</span></td>
+                    <td className="db-date-td">
+                      {new Date(lead.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

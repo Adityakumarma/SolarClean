@@ -13,15 +13,18 @@ import AdvancedDashboard from './Pages/AdvancedDashboard'
 import LandingPage from './Pages/LandingPage'
 import CreateQuotation from './Pages/CreateQuotation'
 import QuotationHistory from './Pages/QuotationHistory'
+import PublicNavbar from './Components/PublicNavbar'
+import AdminLogin from './Pages/AdminLogin'
+import Leads from './Pages/Leads'
 
 const Layout = ({ children }) => {
   const location = useLocation();
-  const isLanding = location.pathname === '/';
+  const isPublic = location.pathname === '/' || location.pathname === '/admin-login';
 
-  if (isLanding) {
+  if (isPublic) {
     return (
       <>
-        <Navbar />
+        <PublicNavbar />
         {children}
       </>
     );
@@ -80,7 +83,7 @@ const Layout = ({ children }) => {
 
 const ProtectedRoute = ({ isAuthenticated, children }) => {
   if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/admin-login" replace />;
   }
   return children;
 };
@@ -102,7 +105,9 @@ function App() {
   return (
     <Layout>
       <Routes>
-        <Route path='/' element={<LandingPage onLogin={handleLogin} isAuthenticated={isAuthenticated} />} />
+        <Route path='/' element={<LandingPage />} />
+        <Route path='/admin-login' element={<AdminLogin onLogin={handleLogin} isAuthenticated={isAuthenticated} />} />
+        <Route path='/leads' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Leads /></ProtectedRoute>} />
         <Route path='/dashboard' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Dashboard /></ProtectedRoute>} />
         <Route path='/advanced-dashboard' element={<ProtectedRoute isAuthenticated={isAuthenticated}><AdvancedDashboard /></ProtectedRoute>} />
         <Route path='/tasks' element={<ProtectedRoute isAuthenticated={isAuthenticated}><Tasks /></ProtectedRoute>} />
