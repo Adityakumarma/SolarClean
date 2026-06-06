@@ -10,7 +10,9 @@ import {
   ChevronRight,
   FileText,
   Sparkles,
-  UserPlus
+  UserPlus,
+  UsersRound,
+  LucideUsersRound
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -164,7 +166,7 @@ export default function Sidebar() {
       </Link>
 
       <Link to="/leads" className={`sb-nav-item ${path === '/leads' ? 'active' : ''}`}>
-        <UserPlus size={20} /> Lead Enquiries
+        <UsersRound size={20} /> Lead Enquiries
       </Link>
 
       

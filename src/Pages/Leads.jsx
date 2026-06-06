@@ -15,7 +15,9 @@ import {
   TrendingUp,
   Award,
   AlertCircle,
-  TrendingDown
+  TrendingDown,
+  BadgeX,
+  UsersRound
 } from "lucide-react";
 
 export default function Leads() {
@@ -211,7 +213,7 @@ export default function Leads() {
         /* STATS CARDS */
         .leads-stats-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
           gap: 1.25rem;
           margin-bottom: 2.5rem;
         }
@@ -491,7 +493,7 @@ export default function Leads() {
 
         <div className="lead-stat-card">
           <div className="lead-stat-icon icon-yellow">
-            <Sparkles size={22} />
+            <UsersRound size={22} />
           </div>
           <div className="lead-stat-info">
             <span className="lead-stat-lbl">New Leads</span>
@@ -521,7 +523,7 @@ export default function Leads() {
 
         <div className="lead-stat-card">
           <div className="lead-stat-icon icon-red">
-            <TrendingDown size={22} />
+            <BadgeX size={22} />
           </div>
           <div className="lead-stat-info">
             <span className="lead-stat-lbl">Lost</span>

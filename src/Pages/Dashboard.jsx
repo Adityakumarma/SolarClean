@@ -14,6 +14,9 @@ import {
   UserPlus,
   Phone,
   Mail,
+  UserStar,
+  UsersRound,
+  UsersRoundIcon,
 } from "lucide-react";
 
 import {
@@ -688,8 +691,8 @@ export default function Dashboard() {
         <StatCard title="Waiting for Confirmation" value={waitingTasks} suffix="tasks" icon={<Clock3 size={24} />} theme="blue" />
         <StatCard title="Completed Tasks" value={completedTasks} suffix="tasks" icon={<CheckCircle size={24} />} theme="green" />
         <StatCard title="Avg Members Per Team" value={averageMembersPerTeam} suffix="members" icon={<Users size={24} />} theme="indigo" />
-        <StatCard title="Total Leads" value={totalLeads} suffix="leads" icon={<UserPlus size={24} />} theme="indigo" />
-        <StatCard title="New Leads" value={newLeads} suffix="new" icon={<Sparkles size={20} />} theme="yellow" />
+        <StatCard title="Total Leads" value={totalLeads} suffix="leads" icon={<UsersRoundIcon size={24} />} theme="indigo" />
+        <StatCard title="New Leads" value={newLeads} suffix="new" icon={<UserStar size={20} />} theme="yellow" />
       </div>
 
       
