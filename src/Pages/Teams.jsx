@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { api } from "../services/api";
 import Swal from 'sweetalert2'
 import Loader from "../Components/Loader";
 
@@ -22,7 +22,7 @@ export default function Teams() {
   const fetchTeams = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API}/teams`);
+      const res = await api.get('/teams');
       setTeams(res.data);
     } catch (err) {
       console.log(err);
@@ -38,7 +38,7 @@ export default function Teams() {
   const createTeam = async () => {
     if (!teamName) return;
     try {
-      await axios.post(`${API}/teams`, { name: teamName });
+      await api.post('/teams', { name: teamName });
       setTeamName("");
       Swal.fire({
         title: "Team Created Successfully!",
@@ -65,7 +65,7 @@ export default function Teams() {
     const { name, phone, email, teamId } = member;
     if (!name || !phone || !email || !teamId) return;
     try {
-      await axios.post(`${API}/teams/${teamId}/member`, { name, phone, email });
+      await api.post(`/teams/${teamId}/member`, { name, phone, email });
       Swal.fire({
         title: "A New Member is Added!",
         icon: "success",

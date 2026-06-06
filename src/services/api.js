@@ -4,6 +4,8 @@ const API = axios.create({
   baseURL: "https://solarcleanbackend.onrender.com/api"
 });
 
+export const api = API;
+
 // TEAM APIs
 export const getTeams = () => API.get("/teams");
 export const createTeam = (data) => API.post("/teams", data);
@@ -30,8 +32,16 @@ export const getQuotationById = (id) => API.get(`/quotations/${id}`);
 export const createQuotation = (data) => API.post("/quotations", data);
 export const deleteQuotation = (id) => API.delete(`/quotations/${id}`);
 
-// Lead APIs
-export const getLeads = () => API.get("/leads");
 export const createLead = (data) => API.post("/leads", data);
-export const updateLead = (id, data) => API.put(`/leads/${id}`, data);
+export const getLeads = () => API.get("/leads");
 export const deleteLead = (id) => API.delete(`/leads/${id}`);
+export const updateLead = (id, data) => API.put(`/leads/${id}`, data);
+export const login = (email, password) => API.post('/auth/login', { email, password });
+// Set token on each request if present
+API.interceptors.request.use((config) => {
+  const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});

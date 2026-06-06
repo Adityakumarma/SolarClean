@@ -10,6 +10,11 @@ export default function Navbar() {
   const isActive = (path) => location.pathname === path;
   const isSectionActive = (paths) => paths.some(path => location.pathname === path);
   const navigate = useNavigate();
+  const handleLogout = () => {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
+    navigate('/login');
+  };
 
   return (
     <>
@@ -424,13 +429,9 @@ export default function Navbar() {
               New Task
             </Link>
 
-            <button
-              onClick={() => {
-                sessionStorage.removeItem('Admin');
-                window.location.href = '/admin-login';
-              }}
-              className="nb-logout-btn"
-            >
+
+                <button onClick={handleLogout} className="nb-logout-btn">
+
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                 <polyline points="16 17 21 12 16 7" />
@@ -501,7 +502,8 @@ export default function Navbar() {
           <button
             onClick={() => {
               sessionStorage.removeItem('Admin');
-              navigate("/admin-login");
+              navigate("/login");
+              setMenuOpen(false);
             }}
             className="nb-mobile-cta"
             style={{

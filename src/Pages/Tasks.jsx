@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import Loader from "../Components/Loader";
-
-const API = "https://solarcleanbackend.onrender.com/api";
+import { api } from "../services/api";
 
 export default function Tasks() {
   const navigate = useNavigate();
@@ -24,8 +22,8 @@ export default function Tasks() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const t = await axios.get(`${API}/teams`);
-      const c = await axios.get(`${API}/clients`);
+      const t = await api.get('/teams');
+      const c = await api.get('/clients');
       setTeams(t.data);
       setClients(c.data);
     } catch (err) {
@@ -54,7 +52,7 @@ export default function Tasks() {
       });
     }
     try {
-      await axios.post(`${API}/tasks`, form);
+      await api.post('/tasks', form);
       setForm({ location: "", panels: "", assignedTeam: "", client: "", date: "", duration: "" });
       Swal.fire({
         title: "Task Added Successfully!",

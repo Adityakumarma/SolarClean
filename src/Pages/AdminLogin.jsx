@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import companyLogo from "../assets/companylogo.png";
+import { login } from "../services/api";
 
 export default function AdminLogin({ onLogin, isAuthenticated }) {
   const [username, setUsername] = useState("");
@@ -9,13 +10,24 @@ export default function AdminLogin({ onLogin, isAuthenticated }) {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (username === "admin" && password === "admin") {
-      onLogin();
-      navigate("/dashboard");
-    } else {
-      setError("Invalid credentials");
+    try {
+      const { data } = await login(username, password);
+      // Store token and role
+      sessionStorage.setItem('token', data.token);
+      sessionStorage.setItem('role', data.role);
+      // Update parent auth state if needed
+      if (onLogin) onLogin();
+      // Redirect based on role
+      if (data.role === 'admin') {
+        navigate('/dashboard');
+      } else {
+        navigate('/customer-dashboard');
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || 'Invalid credentials');
     }
   };
 

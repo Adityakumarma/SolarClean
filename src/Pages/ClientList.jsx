@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { api } from "../services/api";
+
+
 import Swal from 'sweetalert2'
 import Loader from "../Components/Loader";
 
-const API = "https://solarcleanbackend.onrender.com/api";
+
 
 export default function ClientList() {
   const navigate = useNavigate();
@@ -17,8 +19,8 @@ export default function ClientList() {
   const fetchClients = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API}/clients`);
-      const tk = await axios.get(`${API}/tasks`);
+      const res = await api.get(`/clients`);
+      const tk = await api.get(`/tasks`);
 
       setClients(res.data);
       setTasks(tk.data);
@@ -50,7 +52,7 @@ export default function ClientList() {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`${API}/clients/${id}`);
+        await api.delete(`/clients/${id}`);
         Swal.fire({
           title: "Deleted entry!",
           icon: "error",
@@ -69,7 +71,7 @@ export default function ClientList() {
 
   const confirmTask = async (id) => {
     try {
-      await axios.put(`${API}/tasks/${id}`, {
+      await api.put(`/tasks/${id}`, {
         status: "completed",
       });
 

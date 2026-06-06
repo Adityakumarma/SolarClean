@@ -189,6 +189,7 @@ export default function Sidebar() {
             <Link to="/clients-list" className={`sb-sub-item ${path === '/clients-list' ? 'active' : ''}`}>
               View Clients
             </Link>
+          
           </div>
         )}
       </div>

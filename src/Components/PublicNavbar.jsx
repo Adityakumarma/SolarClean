@@ -267,14 +267,14 @@ export default function PublicNavbar() {
             </li>
           </ul>
 
-          <Link to="/admin-login" className="pub-login-btn">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-              <polyline points="10 17 15 12 10 7" />
-              <line x1="15" y1="12" x2="3" y2="12" />
-            </svg>
-            Admin Login
-          </Link>
+            <Link to="/login" className="pub-login-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                <polyline points="10 17 15 12 10 7" />
+                <line x1="15" y1="12" x2="3" y2="12" />
+              </svg>
+              Login
+            </Link>
 
           <button
             className={`pub-hamburger${menuOpen ? " open" : ""}`}
@@ -300,8 +300,8 @@ export default function PublicNavbar() {
           <button onClick={() => handleScroll("contact")} className="pub-mobile-item">
             Contact
           </button>
-          <Link to="/admin-login" className="pub-mobile-login-btn" onClick={() => setMenuOpen(false)}>
-            Admin Login
+          <Link to="/login" className="pub-mobile-login-btn" onClick={() => setMenuOpen(false)}>
+            Login
           </Link>
         </div>
       </nav>
