@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import companyLogo from "../assets/companylogo.png";
 
@@ -9,6 +9,7 @@ export default function Navbar() {
 
   const isActive = (path) => location.pathname === path;
   const isSectionActive = (paths) => paths.some(path => location.pathname === path);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -500,7 +501,7 @@ export default function Navbar() {
           <button
             onClick={() => {
               sessionStorage.removeItem('Admin');
-              window.location.href = '/admin-login';
+              navigate("/admin-login");
             }}
             className="nb-mobile-cta"
             style={{
