@@ -14,7 +14,8 @@ import {
   Award,
   Clock,
   ArrowRight,
-  TrendingUp
+  TrendingUp,
+  BrushCleaning
 } from "lucide-react";
 import { createLead } from "../services/api";
 import Loader from "../Components/Loader";
@@ -864,7 +865,7 @@ export default function LandingPage() {
               <div className="stat-label">Total Installations</div>
             </div>
             <div className="stat-item">
-              <Sparkles className="stat-icon" size={36} />
+              <BrushCleaning className="stat-icon" size={36} />
               <div className="stat-number">
                 <Counter target="5000" suffix="+" />
               </div>
