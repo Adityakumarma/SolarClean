@@ -324,7 +324,6 @@ export default function Navbar() {
               </Link>
             </li>
 
-            
             <li className="nb-dropdown-container">
               <span className={`nb-link${isSectionActive(['/clients', '/clients-list']) ? " active" : ""}`}>
                 <span className="nb-link-dot"></span>
@@ -457,6 +456,9 @@ export default function Navbar() {
           </Link>
           <Link to="/advanced-dashboard" className={`nb-mobile-link${isActive('/advanced-dashboard') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
             Advanced Dashboard
+          </Link>
+          <Link to="/leads" className={`nb-mobile-link${isActive('/leads') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+            Lead Enquiries
           </Link>
           
           <div className="nb-mobile-section-title">Clients</div>
