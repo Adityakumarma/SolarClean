@@ -289,6 +289,7 @@ export default function Navbar() {
           .nb-links { display: none; }
           .nb-cta { display: none; }
           .nb-divider { display: none; }
+          .nb-logout-btn { display: none; }
           .nb-hamburger { display: flex; }
           .nb-root { position: relative; }
         }
@@ -301,7 +302,7 @@ export default function Navbar() {
               src={companyLogo}
               alt="Sunbird Power Solutions"
               style={{
-                height: "38px",
+                height: "50px",
                 width: "auto",
                 filter: "invert(1)",
                 display: "block"

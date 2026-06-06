@@ -211,7 +211,7 @@ export default function Leads() {
         /* STATS CARDS */
         .leads-stats-grid {
           display: grid;
-          grid-template-columns: repeat(5, 1fr);
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
           gap: 1.25rem;
           margin-bottom: 2.5rem;
         }
@@ -450,12 +450,6 @@ export default function Leads() {
           margin-bottom: 0.5rem;
         }
 
-        @media (max-width: 1024px) {
-          .leads-stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
         @media (max-width: 768px) {
           .leads-controls {
             flex-direction: column;
@@ -469,9 +463,6 @@ export default function Leads() {
         }
 
         @media (max-width: 480px) {
-          .leads-stats-grid {
-            grid-template-columns: 1fr;
-          }
           .leads-page {
             padding: 1.5rem 1rem;
           }

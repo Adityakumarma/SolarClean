@@ -9,7 +9,8 @@ import {
   ChevronDown,
   ChevronRight,
   FileText,
-  Sparkles
+  Sparkles,
+  UserPlus
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -163,7 +164,7 @@ export default function Sidebar() {
       </Link>
 
       <Link to="/leads" className={`sb-nav-item ${path === '/leads' ? 'active' : ''}`}>
-        <Sparkles size={20} /> Lead Enquiries
+        <UserPlus size={20} /> Lead Enquiries
       </Link>
 
       

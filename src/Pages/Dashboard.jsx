@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Activity, useEffect, useState } from "react";
 import {
   Users,
   UserRound,
@@ -13,7 +13,7 @@ import {
   Sparkles,
   UserPlus,
   Phone,
-  Mail
+  Mail,
 } from "lucide-react";
 
 import {
@@ -689,7 +689,7 @@ export default function Dashboard() {
         <StatCard title="Completed Tasks" value={completedTasks} suffix="tasks" icon={<CheckCircle size={24} />} theme="green" />
         <StatCard title="Avg Members Per Team" value={averageMembersPerTeam} suffix="members" icon={<Users size={24} />} theme="indigo" />
         <StatCard title="Total Leads" value={totalLeads} suffix="leads" icon={<UserPlus size={24} />} theme="indigo" />
-        <StatCard title="New Leads" value={newLeads} suffix="new" icon={<Sparkles size={24} />} theme="yellow" />
+        <StatCard title="New Leads" value={newLeads} suffix="new" icon={<Sparkles size={20} />} theme="yellow" />
       </div>
 
       

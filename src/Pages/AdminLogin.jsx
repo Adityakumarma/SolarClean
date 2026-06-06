@@ -20,19 +20,7 @@ export default function AdminLogin({ onLogin, isAuthenticated }) {
   };
 
   return (
-    <div
-      style={{
-        fontFamily: "'Inter', sans-serif",
-        minHeight: "100vh",
-        background: "#f8fafc",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "2rem",
-        position: "relative",
-        overflow: "hidden"
-      }}
-    >
+    <div className="login-bg-container">
       <div style={{
         position: 'absolute',
         top: '-10%',
@@ -61,6 +49,19 @@ export default function AdminLogin({ onLogin, isAuthenticated }) {
 
         * {
           box-sizing: border-box;
+        }
+
+        .login-bg-container {
+          font-family: 'Inter', sans-serif;
+          min-height: 100vh;
+          background: #f8fafc;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 2rem;
+          position: relative;
+          overflow: hidden;
+          width: 100%;
         }
 
         .login-wrapper {
@@ -224,12 +225,19 @@ export default function AdminLogin({ onLogin, isAuthenticated }) {
           font-weight: 500;
         }
 
-        @media(max-width: 500px) {
+        @media (max-width: 480px) {
+          .login-bg-container {
+            padding: 1rem;
+          }
           .login-card {
-            padding: 2.5rem 2rem;
+            padding: 2rem 1.25rem;
+            border-radius: 20px;
           }
           .login-title {
             font-size: 1.8rem;
+          }
+          .logo-container {
+            margin-bottom: 1.5rem !important;
           }
         }
       `}</style>

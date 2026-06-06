@@ -64,7 +64,7 @@ export default function PublicNavbar() {
         }
 
         .pub-logo-img {
-          height: 40px;
+          height: 60px;
           width: auto;
           filter: invert(1);
           display: block;
@@ -77,6 +77,7 @@ export default function PublicNavbar() {
           list-style: none;
           margin: 0;
           padding: 0;
+          
         }
 
         .pub-nav-item {
@@ -158,7 +159,6 @@ export default function PublicNavbar() {
         }
 
         .pub-mobile-menu {
-          display: none;
           position: fixed;
           top: 0;
           left: 0;
@@ -166,18 +166,20 @@ export default function PublicNavbar() {
           bottom: 0;
           background: #ffffff;
           padding: 6rem 2rem 2rem 2rem;
+          display: flex;
           flex-direction: column;
           gap: 1.5rem;
           z-index: 998;
           transform: translateY(-100%);
-          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
           opacity: 0;
+          pointer-events: none;
         }
 
         .pub-mobile-menu.open {
           transform: translateY(0);
           opacity: 1;
-          display: flex;
+          pointer-events: auto;
         }
 
         .pub-mobile-item {
@@ -242,7 +244,7 @@ export default function PublicNavbar() {
             <img src={companyLogo} alt="Sunbird Power Solutions" className="pub-logo-img" />
           </Link>
 
-          <ul className="pub-nav-links">
+          <ul className="pub-nav-links ">
             <li>
               <button onClick={() => handleScroll("hero")} className="pub-nav-item">
                 Home

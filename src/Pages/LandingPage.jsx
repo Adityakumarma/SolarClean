@@ -588,6 +588,12 @@ export default function LandingPage() {
           box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
 
+        .map-card iframe {
+          width: 100%;
+          border: none;
+          display: block;
+        }
+
         .enquiry-panel {
           background: #F8FAFC;
           padding: 3rem;
@@ -665,13 +671,14 @@ export default function LandingPage() {
         }
 
         .form-submit-btn {
-          width: 50%;
+          width: 100%;
+          max-width: 280px;
           padding: 1rem;
           margin-top: 2rem;
-          margin-left : 7rem;
-          padding-left: 3.2rem
-          
-        
+          margin-left: auto;
+          margin-right: auto;
+          display: flex;
+          justify-content: center;
         }
 
         /* FOOTER */
@@ -765,9 +772,19 @@ export default function LandingPage() {
           .about-image-side {
             width: 100%;
           }
+          .about-card-banner {
+            padding: 2rem 1.5rem;
+          }
           .footer-inner {
             grid-template-columns: 1fr;
             gap: 2.5rem;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .about-details {
+            grid-template-columns: 1fr;
+            gap: 1rem;
           }
         }
 
@@ -788,6 +805,23 @@ export default function LandingPage() {
           .btn-primary, .btn-secondary, .btn-outline {
             width: 100%;
             justify-content: center;
+          }
+          .form-submit-btn {
+            max-width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-title {
+            font-size: 2rem;
+          }
+          .enquiry-panel {
+            padding: 2rem 1.25rem;
+          }
+          .hero {
+            padding: 4rem 1rem;
           }
         }
       `}</style>
@@ -1019,7 +1053,7 @@ export default function LandingPage() {
             </div>
 
             <div className="map-card" id="map">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1956.6513938385744!2d75.78660748834243!3d11.239122128007951!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1780641812942!5m2!1sen!2sin" width="500" height="300"  allowFullscreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1956.6513938385744!2d75.78660748834243!3d11.239122128007951!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1780641812942!5m2!1sen!2sin" height="300" style={{ border: 0 }} allowFullScreen={true} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
             </div>
           </div>
 
