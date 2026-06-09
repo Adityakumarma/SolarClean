@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../services/api";
 import Swal from 'sweetalert2'
 import Loader from "../Components/Loader";
 
-const API = "https://solarcleanbackend.onrender.com/api";
+
 
 export default function TasksList() {
   const navigate = useNavigate();
@@ -25,9 +25,9 @@ export default function TasksList() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const t = await axios.get(`${API}/teams`);
-      const c = await axios.get(`${API}/clients`);
-      const tk = await axios.get(`${API}/tasks`);
+      const t = await API.get("/teams");
+      const c = await API.get("/clients");
+      const tk = await API.get("/tasks");
       setTeams(t.data);
       setClients(c.data);
       setTasks(tk.data);
@@ -44,7 +44,7 @@ export default function TasksList() {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`${API}/tasks/${id}`, {
+      await API.put(`/tasks/${id}`, {
         status,
       });
 
@@ -72,7 +72,7 @@ export default function TasksList() {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`${API}/tasks/${id}`);
+        await API.delete(`/tasks/${id}`);
         Swal.fire({
           title: "Task deleted!",
           icon: "error",
@@ -87,11 +87,19 @@ export default function TasksList() {
 
   const submitJobCard = async () => {
     try {
-      await axios.put(
-        `${API}/tasks/${selectedTask._id}/jobcard`,
+      await API.put(
+        `/tasks/${selectedTask._id}/jobcard`,
         {
-          servicesDone: jobCard.servicesDone.split(",").map((s) => s.trim()).filter(Boolean),
-          complaints: jobCard.complaints.split(",").map((s) => s.trim()).filter(Boolean),
+          servicesDone: jobCard.servicesDone
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean),
+
+          complaints: jobCard.complaints
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean),
+
           remarks: jobCard.remarks,
           completedBy: jobCard.completedBy
         }
@@ -440,21 +448,21 @@ export default function TasksList() {
                   <span style={{ lineHeight: '1.4' }}>Address:&nbsp;<strong>{task.client?.location || "—"}</strong></span>
                 </div>
               </div>
- 
+
               <div className="tk-next-clean">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4596ab" strokeWidth="2" strokeLinecap="round">
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                   <line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" />
                   <line x1="3" y1="10" x2="21" y2="10" />
                 </svg>
-                 Next cleaning:&nbsp;<strong>
+                Next cleaning:&nbsp;<strong>
                   {task.status === "pending" || task.status === "waiting"
                     ? "N/A"
                     : new Date(task.nextCleaning || task.date).toLocaleDateString("en-IN", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric"
-                      })
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric"
+                    })
                   }
                 </strong>
               </div>

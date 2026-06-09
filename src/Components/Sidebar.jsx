@@ -23,6 +23,7 @@ export default function Sidebar() {
   const [teamsOpen, setTeamsOpen] = useState(true);
   const [tasksOpen, setTasksOpen] = useState(true);
   const [quotationsOpen, setQuotationsOpen] = useState(true);
+  const role = sessionStorage.getItem('role');
 
   return (
     <div className="app-sidebar">
@@ -154,119 +155,149 @@ export default function Sidebar() {
           .sb-sub-menu { display: none; }
         }
       `}</style>
-      
-      <div className="sb-title">Menu</div>
-      
-      <Link to="/dashboard" className={`sb-nav-item ${path === '/dashboard' ? 'active' : ''}`}>
-        <LayoutDashboard size={20} /> Dashboard
-      </Link>
-      
-      <Link to="/advanced-dashboard" className={`sb-nav-item ${path === '/advanced-dashboard' ? 'active' : ''}`}>
-        <LineChart size={20} /> Advanced Dashboard
-      </Link>
 
-      <Link to="/leads" className={`sb-nav-item ${path === '/leads' ? 'active' : ''}`}>
-        <UsersRound size={20} /> Lead Enquiries
-      </Link>
-
-      
-      <div>
-        <div 
-          onClick={() => setClientsOpen(!clientsOpen)} 
-          className={`sb-nav-item ${(path === '/clients' || path === '/clients-list') ? 'active' : ''}`}
-          style={{ justifyContent: 'space-between', cursor: 'pointer' }}
-        >
-          <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Building2 size={20} /> Clients
-          </span>
-          {clientsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-        </div>
-        {clientsOpen && (
-          <div className="sb-sub-menu">
-            <Link to="/clients" className={`sb-sub-item ${path === '/clients' ? 'active' : ''}`}>
-              Add Client
-            </Link>
-            <Link to="/clients-list" className={`sb-sub-item ${path === '/clients-list' ? 'active' : ''}`}>
-              View Clients
-            </Link>
+      {role === 'admin' && (
+        <>
+          <div className="sb-title">Admin Menu</div>
           
-          </div>
-        )}
-      </div>
+          <Link to="/dashboard" className={`sb-nav-item ${path === '/dashboard' ? 'active' : ''}`}>
+            <LayoutDashboard size={20} /> Dashboard
+          </Link>
+          
+          <Link to="/advanced-dashboard" className={`sb-nav-item ${path === '/advanced-dashboard' ? 'active' : ''}`}>
+            <LineChart size={20} /> Advanced Dashboard
+          </Link>
 
-      
-      <div>
-        <div 
-          onClick={() => setTeamsOpen(!teamsOpen)} 
-          className={`sb-nav-item ${(path === '/teams' || path === '/teams-list') ? 'active' : ''}`}
-          style={{ justifyContent: 'space-between', cursor: 'pointer' }}
-        >
-          <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Users size={20} /> Teams
-          </span>
-          {teamsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-        </div>
-        {teamsOpen && (
-          <div className="sb-sub-menu">
-            <Link to="/teams" className={`sb-sub-item ${path === '/teams' ? 'active' : ''}`}>
-              Add Team
-            </Link>
-            <Link to="/teams-list" className={`sb-sub-item ${path === '/teams-list' ? 'active' : ''}`}>
-              View Teams
-            </Link>
-          </div>
-        )}
-      </div>
+          <Link to="/leads" className={`sb-nav-item ${path === '/leads' ? 'active' : ''}`}>
+            <UsersRound size={20} /> Lead Enquiries
+          </Link>
 
-      
-      <div>
-        <div 
-          onClick={() => setTasksOpen(!tasksOpen)} 
-          className={`sb-nav-item ${(path === '/tasks' || path === '/tasks-list') ? 'active' : ''}`}
-          style={{ justifyContent: 'space-between', cursor: 'pointer' }}
-        >
-          <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <ClipboardList size={20} /> Tasks
-          </span>
-          {tasksOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-        </div>
-        {tasksOpen && (
-          <div className="sb-sub-menu">
-            <Link to="/tasks" className={`sb-sub-item ${path === '/tasks' ? 'active' : ''}`}>
-              Create Task
-            </Link>
-            <Link to="/tasks-list" className={`sb-sub-item ${path === '/tasks-list' ? 'active' : ''}`}>
-              View Tasks
-            </Link>
+          <div>
+            <div 
+              onClick={() => setClientsOpen(!clientsOpen)} 
+              className={`sb-nav-item ${(path === '/clients' || path === '/clients-list') ? 'active' : ''}`}
+              style={{ justifyContent: 'space-between', cursor: 'pointer' }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <Building2 size={20} /> Clients
+              </span>
+              {clientsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+            </div>
+            {clientsOpen && (
+              <div className="sb-sub-menu">
+                <Link to="/clients" className={`sb-sub-item ${path === '/clients' ? 'active' : ''}`}>
+                  Add Client
+                </Link>
+                <Link to="/clients-list" className={`sb-sub-item ${path === '/clients-list' ? 'active' : ''}`}>
+                  View Clients
+                </Link>
+              </div>
+            )}
           </div>
-        )}
-      </div>
 
-      
-      <div>
-        <div 
-          onClick={() => setQuotationsOpen(!quotationsOpen)} 
-          className={`sb-nav-item ${(path === '/quotations/create' || path === '/quotations/history') ? 'active' : ''}`}
-          style={{ justifyContent: 'space-between', cursor: 'pointer' }}
-        >
-          <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <FileText size={20} /> Quotations
-          </span>
-          {quotationsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-        </div>
-        {quotationsOpen && (
-          <div className="sb-sub-menu">
-            <Link to="/quotations/create" className={`sb-sub-item ${path === '/quotations/create' ? 'active' : ''}`}>
-              Create Quotation
-            </Link>
-            <Link to="/quotations/history" className={`sb-sub-item ${path === '/quotations/history' ? 'active' : ''}`}>
-              Quotation History
-            </Link>
+          <div>
+            <div 
+              onClick={() => setTeamsOpen(!teamsOpen)} 
+              className={`sb-nav-item ${(path === '/teams' || path === '/teams-list') ? 'active' : ''}`}
+              style={{ justifyContent: 'space-between', cursor: 'pointer' }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <Users size={20} /> Teams
+              </span>
+              {teamsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+            </div>
+            {teamsOpen && (
+              <div className="sb-sub-menu">
+                <Link to="/teams" className={`sb-sub-item ${path === '/teams' ? 'active' : ''}`}>
+                  Add Team
+                </Link>
+                <Link to="/teams-list" className={`sb-sub-item ${path === '/teams-list' ? 'active' : ''}`}>
+                  View Teams
+                </Link>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+
+          <div>
+            <div 
+              onClick={() => setTasksOpen(!tasksOpen)} 
+              className={`sb-nav-item ${(path === '/tasks' || path === '/tasks-list') ? 'active' : ''}`}
+              style={{ justifyContent: 'space-between', cursor: 'pointer' }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <ClipboardList size={20} /> Tasks
+              </span>
+              {tasksOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+            </div>
+            {tasksOpen && (
+              <div className="sb-sub-menu">
+                <Link to="/tasks" className={`sb-sub-item ${path === '/tasks' ? 'active' : ''}`}>
+                  Create Task
+                </Link>
+                <Link to="/tasks-list" className={`sb-sub-item ${path === '/tasks-list' ? 'active' : ''}`}>
+                  View Tasks
+                </Link>
+              </div>
+            )}
+          </div>
+
+          <div>
+            <div 
+              onClick={() => setQuotationsOpen(!quotationsOpen)} 
+              className={`sb-nav-item ${(path === '/quotations/create' || path === '/quotations/history') ? 'active' : ''}`}
+              style={{ justifyContent: 'space-between', cursor: 'pointer' }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <FileText size={20} /> Quotations
+              </span>
+              {quotationsOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+            </div>
+            {quotationsOpen && (
+              <div className="sb-sub-menu">
+                <Link to="/quotations/create" className={`sb-sub-item ${path === '/quotations/create' ? 'active' : ''}`}>
+                  Create Quotation
+                </Link>
+                <Link to="/quotations/history" className={`sb-sub-item ${path === '/quotations/history' ? 'active' : ''}`}>
+                  Quotation History
+                </Link>
+              </div>
+            )}
+          </div>
+        </>
+      )}
+
+      {role === 'customer' && (
+        <>
+          <div className="sb-title">Customer Portal</div>
+          
+          <Link to="/customer-dashboard" className={`sb-nav-item ${path === '/customer-dashboard' ? 'active' : ''}`}>
+            <LayoutDashboard size={20} /> Dashboard
+          </Link>
+          
+          <Link to="/customer/profile" className={`sb-nav-item ${path === '/customer/profile' ? 'active' : ''}`}>
+            <Building2 size={20} /> My Profile
+          </Link>
+
+          <Link to="/customer/documents" className={`sb-nav-item ${path === '/customer/documents' ? 'active' : ''}`}>
+            <FileText size={20} /> My Documents
+          </Link>
+
+          <Link to="/customer/quotations" className={`sb-nav-item ${path === '/customer/quotations' ? 'active' : ''}`}>
+            <Sparkles size={20} /> My Quotations
+          </Link>
+
+          <Link to="/customer/schedule" className={`sb-nav-item ${path === '/customer/schedule' ? 'active' : ''}`}>
+            <ClipboardList size={20} /> Cleaning Schedule
+          </Link>
+
+          <Link to="/customer/tasks" className={`sb-nav-item ${path === '/customer/tasks' ? 'active' : ''}`}>
+            <UsersRound size={20} /> My Tasks
+          </Link>
+        </>
+      )}
 
       <div style={{ flex: 1 }}></div>
     </div>
   );
 }
+

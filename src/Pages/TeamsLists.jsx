@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { getTeams } from "../services/api";
 import Swal from 'sweetalert2'
 import Loader from "../Components/Loader";
-
-const API = "https://solarcleanbackend.onrender.com/api";
 
 export default function TeamsLists() {
   const navigate = useNavigate();
@@ -14,12 +12,34 @@ export default function TeamsLists() {
   const fetchTeams = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API}/teams`);
-      setTeams(res.data);
+      const res = await getTeams();
+
+     const teamData =
+  res.data?.data ||
+  res.data ||
+  [];
+
+setTeams(Array.isArray(teamData) ? teamData : []);
+
+      setTeams(teamData);
     } catch (err) {
       console.log(err);
+
+      if (err.response?.status === 401) {
+        localStorage.removeItem("token");
+
+        Swal.fire({
+          title: "Session Expired",
+          text: "Please login again",
+          icon: "warning"
+        });
+
+        navigate("/login");
+        return;
+      }
+
       Swal.fire({
-        title: "Failed to load teams",
+        title: err.response?.data?.message || "Failed to load teams",
         icon: "error"
       });
     } finally {
@@ -31,7 +51,10 @@ export default function TeamsLists() {
     fetchTeams();
   }, []);
 
-  const totalMembers = teams.reduce((acc, t) => acc + t.members.length, 0);
+  const totalMembers = teams.reduce(
+    (acc, t) => acc + (t.members?.length || 0),
+    0
+  );
 
   if (loading) {
     return <Loader message="Loading team Details..." />;
@@ -177,7 +200,7 @@ export default function TeamsLists() {
               <div className="tm-team-header">
                 <div className="tm-team-name">{team.name}</div>
                 <span className="tm-member-count">
-                  {team.members.length} {team.members.length === 1 ? "member" : "members"}
+                  {team.members?.length || 0} {team.members.length === 1 ? "member" : "members"}
                 </span>
               </div>
 
@@ -190,13 +213,13 @@ export default function TeamsLists() {
                       <div className="tm-member-name">{m.name}</div>
                       <div className="tm-member-detail">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.1 3.4 2 2 0 0 1 3.1 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16z"/>
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.1 3.4 2 2 0 0 1 3.1 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16z" />
                         </svg>
                         {m.phone}
                       </div>
                       <div className="tm-member-detail">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" />
                         </svg>
                         {m.email}
                       </div>

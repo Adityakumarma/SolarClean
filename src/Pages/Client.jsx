@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { createClient } from "../services/api";
 import Swal from 'sweetalert2'
 import { MapContainer, TileLayer, Marker, Popup, LayersControl, useMapEvents } from "react-leaflet";
 import L from "leaflet";
@@ -18,7 +18,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-const API = "https://solarcleanbackend.onrender.com/api";
 
 export default function Clients() {
   const navigate = useNavigate();
@@ -94,34 +93,58 @@ export default function Clients() {
     return true;
   };
 
-  const addClient = async () => {
-    if (!isValid()) return;
-    try {
-      setLoading(true);
-      const formData = new FormData();
-      formData.append("name", form.name);
-      formData.append("phone", form.phone);
-      formData.append("email", form.email);
-      formData.append("location", form.location);
-      if (form.image) formData.append("image", form.image);
-      await axios.post(`${API}/clients`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      Swal.fire({
-        title: "Client Added!",
-        icon: "success",
-        draggable: true
-      });
-      setForm({ name: "", phone: "", email: "", location: "", image: null });
-      setPreview(null);
-      navigate("/clients-list");
-    } catch (err) {
-      console.error(err);
-      alert("Failed to add client");
-    } finally {
-      setLoading(false);
+ const addClient = async () => {
+  if (!isValid()) return;
+
+  try {
+    setLoading(true);
+
+    const formData = new FormData();
+
+    formData.append("name", form.name);
+    formData.append("phone", form.phone);
+    formData.append("email", form.email);
+    formData.append("location", form.location);
+
+    if (form.image) {
+      formData.append("image", form.image);
     }
-  };
+
+   const res = await createClient(formData);
+
+    Swal.fire({
+      icon: "success",
+      title: "Client Added Successfully",
+      text:
+        "Customer can login using their email and default password 'sunbird'"
+    });
+
+    setForm({
+      name: "",
+      phone: "",
+      email: "",
+      location: "",
+      image: null
+    });
+
+    setPreview(null);
+
+    navigate("/clients-list");
+
+  } catch (err) {
+    console.error(err);
+
+    Swal.fire({
+      icon: "error",
+      title: "Failed",
+      text:
+        err.response?.data?.message ||
+        "Unable to create client"
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#f8fafc", minHeight: "100vh" }}>

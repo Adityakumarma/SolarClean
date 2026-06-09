@@ -1,4 +1,4 @@
-import { Activity, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Users,
   UserRound,
@@ -10,12 +10,12 @@ import {
   ChevronRight,
   MoreVertical,
   MapPin,
-  Sparkles,
-  UserPlus,
+
+
   Phone,
   Mail,
   UserStar,
-  UsersRound,
+
   UsersRoundIcon,
 } from "lucide-react";
 
@@ -43,12 +43,17 @@ export default function Dashboard() {
       const taskRes = await getTasks();
       const leadsRes = await getLeads();
 
-      setTeams(teamRes.data);
-      setClients(clientRes.data);
-      setTasks(taskRes.data);
-      setLeads(leadsRes.data);
+      setTeams(teamRes.data.data || teamRes.data || []);
+      setClients(clientRes.data.data || clientRes.data || []);
+      setTasks(taskRes.data.data || taskRes.data || []);
+      setLeads(leadsRes.data.data || leadsRes.data || []);
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      setTeams([]);
+      setClients([]);
+      setTasks([]);
+      setLeads([]);
+
     } finally {
       setLoading(false);
     }
@@ -59,8 +64,10 @@ export default function Dashboard() {
   }, []);
 
   const totalTeams = teams.length;
-  const totalMembers = teams.reduce((acc, team) => acc + team.members.length, 0);
-  const averageMembersPerTeam = totalTeams ? Math.floor(totalMembers / totalTeams) : 0;
+  const totalMembers = teams.reduce(
+    (acc, team) => acc + (team.members?.length || 0),
+    0
+  ); const averageMembersPerTeam = totalTeams ? Math.floor(totalMembers / totalTeams) : 0;
   const totalClients = clients.length;
   const totalTasks = tasks.length;
   const pendingTasks = tasks.filter((task) => task.status === "pending").length;
@@ -679,7 +686,7 @@ export default function Dashboard() {
           <h1>Dashboard</h1>
           <p>Sunbird Power Solutions Overview</p>
         </div>
-        
+
       </div>
 
       <div className="db-stats-grid">
@@ -695,12 +702,12 @@ export default function Dashboard() {
         <StatCard title="New Leads" value={newLeads} suffix="new" icon={<UserStar size={20} />} theme="yellow" />
       </div>
 
-      
+
       <div className="db-card" style={{ marginBottom: '2.5rem' }}>
         <div className="db-card-title">
           <div className="db-card-title-left">
             <span className="db-card-title-dot" style={{ backgroundColor: '#ef4444' }}></span>
-            Upcoming Tasks Due 
+            Upcoming Tasks Due
           </div>
           <span className="db-card-badge" style={{ backgroundColor: '#fee2e2', color: '#ef4444' }}>
             {upcomingTasks.length} Dues
@@ -737,16 +744,16 @@ export default function Dashboard() {
                     <tr key={task._id}>
                       <td className="db-td-location">
                         <div className="db-loc-flex">
-                          <MapPin size={14} className="db-loc-icon"/>
+                          <MapPin size={14} className="db-loc-icon" />
                           {task.location}
                         </div>
                       </td>
                       <td>{task.client?.name || "N/A"}</td>
                       <td>{task.assignedTeam?.name || "N/A"}</td>
                       <td><span className="db-panels-badge">{task.panels} Panels</span></td>
-                      
+
                       <td>
-                        <span style={{ 
+                        <span style={{
                           fontWeight: '700',
                           color: diffDays <= 2 ? '#ef4444' : diffDays <= 5 ? '#f59e0b' : '#10b981'
                         }}>
@@ -770,7 +777,7 @@ export default function Dashboard() {
         <div className="db-card-title">
           <div className="db-card-title-left">
             <span className="db-card-title-dot" style={{ backgroundColor: '#f59e0b' }}></span>
-           Lead Enquiry Follow-ups 
+            Lead Enquiry Follow-ups
           </div>
           <span className="db-card-badge" style={{ backgroundColor: '#fef3c7', color: '#d97706' }}>
             {upcomingFollowUps.length} Pending
@@ -798,17 +805,17 @@ export default function Dashboard() {
                   <tr key={lead._id}>
                     <td className="db-td-location">
                       <div className="db-loc-flex">
-                        <Users size={14} className="db-loc-icon"/>
+                        <Users size={14} className="db-loc-icon" />
                         {lead.name}
                       </div>
                     </td>
                     <td>
-                      <div  className="font-bold flex  "> <Phone className="mr-2" size={15} /> {lead.phone}</div>
+                      <div className="font-bold flex  "> <Phone className="mr-2" size={15} /> {lead.phone}</div>
                       <div className="flex mt-2" style={{ fontSize: '12px', color: '#64748b' }}> <Mail className="mr-2 " size={15} /> {lead.email}</div>
                     </td>
                     <td>
                       <div className="db-loc-flex">
-                        <MapPin size={12} className="db-loc-icon"/>
+                        <MapPin size={12} className="db-loc-icon" />
                         {lead.location}
                       </div>
                     </td>
@@ -828,12 +835,12 @@ export default function Dashboard() {
         <div className="db-calendar-card">
           <div className="db-card-title">
             <div className="db-card-title-left">
-                <span className="db-card-title-dot "></span>
-                Scheduled Tasks for the Month
-              </div>
+              <span className="db-card-title-dot "></span>
+              Scheduled Tasks for the Month
+            </div>
           </div>
           <div className="db-calendar-header">
-            
+
             <h2>{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</h2>
             <div className="db-calendar-nav">
               <button onClick={prevMonth} className="db-cal-nav-btn"><ChevronLeft size={20} /></button>
@@ -841,21 +848,21 @@ export default function Dashboard() {
               <button onClick={nextMonth} className="db-cal-nav-btn"><ChevronRight size={20} /></button>
             </div>
           </div>
-          
+
           <div className="db-calendar-grid">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
               <div key={day} className="db-cal-day-name">{day}</div>
             ))}
-            
+
             {Array.from({ length: firstDayOfMonth }).map((_, i) => (
               <div key={`blank-${i}`} className="db-cal-cell empty"></div>
             ))}
-            
+
             {Array.from({ length: daysInMonth }).map((_, i) => {
               const day = i + 1;
               const isToday = new Date().getDate() === day && new Date().getMonth() === currentDate.getMonth() && new Date().getFullYear() === currentDate.getFullYear();
               const dayTasks = tasksByDate[day] || [];
-              
+
               return (
                 <div key={day} className={`db-cal-cell ${isToday ? 'today' : ''} ${dayTasks.length > 0 ? 'has-tasks' : ''}`}>
                   <div className="db-cal-date">{day}</div>
@@ -866,7 +873,7 @@ export default function Dashboard() {
                       </div>
                     ))}
                     {dayTasks.length > 2 && (
-                       <div className="db-cal-more">+{dayTasks.length - 2} more</div>
+                      <div className="db-cal-more">+{dayTasks.length - 2} more</div>
                     )}
                   </div>
                 </div>
@@ -904,7 +911,7 @@ export default function Dashboard() {
                     <tr key={task._id}>
                       <td className="db-td-location">
                         <div className="db-loc-flex">
-                          <MapPin size={14} className="db-loc-icon"/>
+                          <MapPin size={14} className="db-loc-icon" />
                           {task.location}
                         </div>
                       </td>
@@ -912,12 +919,11 @@ export default function Dashboard() {
                       <td>{task.assignedTeam?.name || "N/A"}</td>
                       <td><span className="db-panels-badge">{task.panels} Panels</span></td>
                       <td>
-                        <span className={`db-status-pill ${
-                          task.status === "completed" ? "db-status-completed" :
+                        <span className={`db-status-pill ${task.status === "completed" ? "db-status-completed" :
                           task.status === "waiting" ? "db-status-waiting" : "db-status-pending"
-                        }`}>
+                          }`}>
                           {task.status === "completed" ? "Completed" :
-                           task.status === "waiting" ? "Waiting" : "Pending"}
+                            task.status === "waiting" ? "Waiting" : "Pending"}
                         </span>
                       </td>
                       <td className="db-date-td">

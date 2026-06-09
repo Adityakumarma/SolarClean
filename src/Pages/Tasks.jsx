@@ -22,12 +22,34 @@ export default function Tasks() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const t = await api.get('/teams');
-      const c = await api.get('/clients');
-      setTeams(t.data);
-      setClients(c.data);
+      const t = await api.get("/teams");
+      const c = await api.get("/clients");
+
+      setTeams(
+        Array.isArray(t.data?.data)
+          ? t.data.data
+          : Array.isArray(t.data)
+            ? t.data
+            : []
+      );
+
+      setClients(
+        Array.isArray(c.data?.data)
+          ? c.data.data
+          : Array.isArray(c.data)
+            ? c.data
+            : []
+      );
     } catch (err) {
       console.log(err);
+
+      Swal.fire({
+        title:
+          err.response?.data?.message ||
+          "Failed to load data",
+        icon: "error"
+      });
+
     } finally {
       setLoading(false);
     }
@@ -64,6 +86,9 @@ export default function Tasks() {
       console.log(err);
       Swal.fire({
         title: "Error Creating Task",
+        text:
+          err.response?.data?.message ||
+          "Something went wrong",
         icon: "error"
       });
     }

@@ -10,6 +10,7 @@ export default function Navbar() {
   const isActive = (path) => location.pathname === path;
   const isSectionActive = (paths) => paths.some(path => location.pathname === path);
   const navigate = useNavigate();
+  const role = sessionStorage.getItem('role');
   const handleLogout = () => {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('role');
@@ -317,121 +318,164 @@ export default function Navbar() {
           </Link>
 
           <ul className="nb-links">
-            <li>
-              <Link to="/dashboard" className={`nb-link${isActive('/dashboard') ? " active" : ""}`}>
-                <span className="nb-link-dot"></span>
-                Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link to="/advanced-dashboard" className={`nb-link${isActive('/advanced-dashboard') ? " active" : ""}`}>
-                <span className="nb-link-dot"></span>
-                Advanced Dashboard
-              </Link>
-            </li>
+            {role === 'admin' && (
+              <>
+                <li>
+                  <Link to="/dashboard" className={`nb-link${isActive('/dashboard') ? " active" : ""}`}>
+                    <span className="nb-link-dot"></span>
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/advanced-dashboard" className={`nb-link${isActive('/advanced-dashboard') ? " active" : ""}`}>
+                    <span className="nb-link-dot"></span>
+                    Advanced Dashboard
+                  </Link>
+                </li>
 
-            <li className="nb-dropdown-container">
-              <span className={`nb-link${isSectionActive(['/clients', '/clients-list']) ? " active" : ""}`}>
-                <span className="nb-link-dot"></span>
-                Clients
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '2px' }}>
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </span>
-              <ul className="nb-dropdown-menu">
-                <li>
-                  <Link to="/clients" className={`nb-dropdown-item${isActive('/clients') ? " active" : ""}`}>
-                    Add Client
-                  </Link>
+                <li className="nb-dropdown-container">
+                  <span className={`nb-link${isSectionActive(['/clients', '/clients-list']) ? " active" : ""}`}>
+                    <span className="nb-link-dot"></span>
+                    Clients
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '2px' }}>
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </span>
+                  <ul className="nb-dropdown-menu">
+                    <li>
+                      <Link to="/clients" className={`nb-dropdown-item${isActive('/clients') ? " active" : ""}`}>
+                        Add Client
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/clients-list" className={`nb-dropdown-item${isActive('/clients-list') ? " active" : ""}`}>
+                        View Clients
+                      </Link>
+                    </li>
+                  </ul>
                 </li>
-                <li>
-                  <Link to="/clients-list" className={`nb-dropdown-item${isActive('/clients-list') ? " active" : ""}`}>
-                    View Clients
-                  </Link>
-                </li>
-              </ul>
-            </li>
 
-            
-            <li className="nb-dropdown-container">
-              <span className={`nb-link${isSectionActive(['/teams', '/teams-list']) ? " active" : ""}`}>
-                <span className="nb-link-dot"></span>
-                Teams
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '2px' }}>
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </span>
-              <ul className="nb-dropdown-menu">
-                <li>
-                  <Link to="/teams" className={`nb-dropdown-item${isActive('/teams') ? " active" : ""}`}>
-                    Add Team
-                  </Link>
+                <li className="nb-dropdown-container">
+                  <span className={`nb-link${isSectionActive(['/teams', '/teams-list']) ? " active" : ""}`}>
+                    <span className="nb-link-dot"></span>
+                    Teams
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '2px' }}>
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </span>
+                  <ul className="nb-dropdown-menu">
+                    <li>
+                      <Link to="/teams" className={`nb-dropdown-item${isActive('/teams') ? " active" : ""}`}>
+                        Add Team
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/teams-list" className={`nb-dropdown-item${isActive('/teams-list') ? " active" : ""}`}>
+                        View Teams
+                      </Link>
+                    </li>
+                  </ul>
                 </li>
-                <li>
-                  <Link to="/teams-list" className={`nb-dropdown-item${isActive('/teams-list') ? " active" : ""}`}>
-                    View Teams
-                  </Link>
-                </li>
-              </ul>
-            </li>
 
-            
-            <li className="nb-dropdown-container">
-              <span className={`nb-link${isSectionActive(['/tasks', '/tasks-list']) ? " active" : ""}`}>
-                <span className="nb-link-dot"></span>
-                Tasks
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '2px' }}>
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </span>
-              <ul className="nb-dropdown-menu">
-                <li>
-                  <Link to="/tasks" className={`nb-dropdown-item${isActive('/tasks') ? " active" : ""}`}>
-                    Create Task
-                  </Link>
+                <li className="nb-dropdown-container">
+                  <span className={`nb-link${isSectionActive(['/tasks', '/tasks-list']) ? " active" : ""}`}>
+                    <span className="nb-link-dot"></span>
+                    Tasks
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '2px' }}>
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </span>
+                  <ul className="nb-dropdown-menu">
+                    <li>
+                      <Link to="/tasks" className={`nb-dropdown-item${isActive('/tasks') ? " active" : ""}`}>
+                        Create Task
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/tasks-list" className={`nb-dropdown-item${isActive('/tasks-list') ? " active" : ""}`}>
+                        View Tasks
+                      </Link>
+                    </li>
+                  </ul>
                 </li>
-                <li>
-                  <Link to="/tasks-list" className={`nb-dropdown-item${isActive('/tasks-list') ? " active" : ""}`}>
-                    View Tasks
-                  </Link>
-                </li>
-              </ul>
-            </li>
 
-            <li className="nb-dropdown-container">
-              <span className={`nb-link${isSectionActive(['/quotations/create', '/quotations/history']) ? " active" : ""}`}>
-                <span className="nb-link-dot"></span>
-                Quotations
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '2px' }}>
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </span>
-              <ul className="nb-dropdown-menu">
+                <li className="nb-dropdown-container">
+                  <span className={`nb-link${isSectionActive(['/quotations/create', '/quotations/history']) ? " active" : ""}`}>
+                    <span className="nb-link-dot"></span>
+                    Quotations
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '2px' }}>
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </span>
+                  <ul className="nb-dropdown-menu">
+                    <li>
+                      <Link to="/quotations/create" className={`nb-dropdown-item${isActive('/quotations/create') ? " active" : ""}`}>
+                        Create Quotation
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/quotations/history" className={`nb-dropdown-item${isActive('/quotations/history') ? " active" : ""}`}>
+                        Quotation History
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              </>
+            )}
+
+            {role === 'customer' && (
+              <>
                 <li>
-                  <Link to="/quotations/create" className={`nb-dropdown-item${isActive('/quotations/create') ? " active" : ""}`}>
-                    Create Quotation
+                  <Link to="/customer-dashboard" className={`nb-link${isActive('/customer-dashboard') ? " active" : ""}`}>
+                    <span className="nb-link-dot"></span>
+                    Dashboard
                   </Link>
                 </li>
                 <li>
-                  <Link to="/quotations/history" className={`nb-dropdown-item${isActive('/quotations/history') ? " active" : ""}`}>
-                    Quotation History
+                  <Link to="/customer/profile" className={`nb-link${isActive('/customer/profile') ? " active" : ""}`}>
+                    <span className="nb-link-dot"></span>
+                    Profile
                   </Link>
                 </li>
-              </ul>
-            </li>
+                <li>
+                  <Link to="/customer/documents" className={`nb-link${isActive('/customer/documents') ? " active" : ""}`}>
+                    <span className="nb-link-dot"></span>
+                    Documents
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/customer/quotations" className={`nb-link${isActive('/customer/quotations') ? " active" : ""}`}>
+                    <span className="nb-link-dot"></span>
+                    Quotations
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/customer/schedule" className={`nb-link${isActive('/customer/schedule') ? " active" : ""}`}>
+                    <span className="nb-link-dot"></span>
+                    Schedule
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/customer/tasks" className={`nb-link${isActive('/customer/tasks') ? " active" : ""}`}>
+                    <span className="nb-link-dot"></span>
+                    Tasks
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
 
           <div className="nb-right">
-            <Link to="/tasks" className="nb-cta">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <path d="M12 5v14M5 12h14" />
-              </svg>
-              New Task
-            </Link>
+            {role === 'admin' && (
+              <Link to="/tasks" className="nb-cta">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                New Task
+              </Link>
+            )}
 
-
-                <button onClick={handleLogout} className="nb-logout-btn">
-
+            <button onClick={handleLogout} className="nb-logout-btn">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                 <polyline points="16 17 21 12 16 7" />
@@ -453,58 +497,82 @@ export default function Navbar() {
         </div>
 
         <div className={`nb-mobile-menu${menuOpen ? " open" : ""}`}>
-          <Link to="/dashboard" className={`nb-mobile-link${isActive('/dashboard') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
-            Dashboard
-          </Link>
-          <Link to="/advanced-dashboard" className={`nb-mobile-link${isActive('/advanced-dashboard') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
-            Advanced Dashboard
-          </Link>
-          <Link to="/leads" className={`nb-mobile-link${isActive('/leads') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
-            Lead Enquiries
-          </Link>
-          
-          <div className="nb-mobile-section-title">Clients</div>
-          <Link to="/clients" className={`nb-mobile-link sub${isActive('/clients') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
-            Add Client
-          </Link>
-          <Link to="/clients-list" className={`nb-mobile-link sub${isActive('/clients-list') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
-            Clients List
-          </Link>
+          {role === 'admin' && (
+            <>
+              <Link to="/dashboard" className={`nb-mobile-link${isActive('/dashboard') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Dashboard
+              </Link>
+              <Link to="/advanced-dashboard" className={`nb-mobile-link${isActive('/advanced-dashboard') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Advanced Dashboard
+              </Link>
+              <Link to="/leads" className={`nb-mobile-link${isActive('/leads') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Lead Enquiries
+              </Link>
+              
+              <div className="nb-mobile-section-title">Clients</div>
+              <Link to="/clients" className={`nb-mobile-link sub${isActive('/clients') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Add Client
+              </Link>
+              <Link to="/clients-list" className={`nb-mobile-link sub${isActive('/clients-list') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Clients List
+              </Link>
 
-          <div className="nb-mobile-section-title">Teams</div>
-          <Link to="/teams" className={`nb-mobile-link sub${isActive('/teams') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
-            Add Team
-          </Link>
-          <Link to="/teams-list" className={`nb-mobile-link sub${isActive('/teams-list') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
-            Teams List
-          </Link>
+              <div className="nb-mobile-section-title">Teams</div>
+              <Link to="/teams" className={`nb-mobile-link sub${isActive('/teams') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Add Team
+              </Link>
+              <Link to="/teams-list" className={`nb-mobile-link sub${isActive('/teams-list') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Teams List
+              </Link>
 
-          <div className="nb-mobile-section-title">Tasks</div>
-          <Link to="/tasks" className={`nb-mobile-link sub${isActive('/tasks') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
-            Create Task
-          </Link>
-          <Link to="/tasks-list" className={`nb-mobile-link sub${isActive('/tasks-list') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
-            Tasks List
-          </Link>
+              <div className="nb-mobile-section-title">Tasks</div>
+              <Link to="/tasks" className={`nb-mobile-link sub${isActive('/tasks') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Create Task
+              </Link>
+              <Link to="/tasks-list" className={`nb-mobile-link sub${isActive('/tasks-list') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Tasks List
+              </Link>
 
-          <div className="nb-mobile-section-title">Quotations</div>
-          <Link to="/quotations/create" className={`nb-mobile-link sub${isActive('/quotations/create') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
-            Create Quotation
-          </Link>
-          <Link to="/quotations/history" className={`nb-mobile-link sub${isActive('/quotations/history') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
-            Quotation History
-          </Link>
-          
-          <div className="nb-mobile-divider"></div>
-          <Link to="/tasks" className="nb-mobile-cta" onClick={() => setMenuOpen(false)}>
-            + New Task
-          </Link>
+              <div className="nb-mobile-section-title">Quotations</div>
+              <Link to="/quotations/create" className={`nb-mobile-link sub${isActive('/quotations/create') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Create Quotation
+              </Link>
+              <Link to="/quotations/history" className={`nb-mobile-link sub${isActive('/quotations/history') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Quotation History
+              </Link>
+              
+              <div className="nb-mobile-divider"></div>
+              <Link to="/tasks" className="nb-mobile-cta" onClick={() => setMenuOpen(false)}>
+                + New Task
+              </Link>
+            </>
+          )}
+
+          {role === 'customer' && (
+            <>
+              <Link to="/customer-dashboard" className={`nb-mobile-link${isActive('/customer-dashboard') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Dashboard
+              </Link>
+              <Link to="/customer/profile" className={`nb-mobile-link${isActive('/customer/profile') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Profile
+              </Link>
+              <Link to="/customer/documents" className={`nb-mobile-link${isActive('/customer/documents') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Documents
+              </Link>
+              <Link to="/customer/quotations" className={`nb-mobile-link${isActive('/customer/quotations') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Quotations
+              </Link>
+              <Link to="/customer/schedule" className={`nb-mobile-link${isActive('/customer/schedule') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Schedule
+              </Link>
+              <Link to="/customer/tasks" className={`nb-mobile-link${isActive('/customer/tasks') ? " active" : ""}`} onClick={() => setMenuOpen(false)}>
+                Tasks
+              </Link>
+            </>
+          )}
+
           <button
-            onClick={() => {
-              sessionStorage.removeItem('Admin');
-              navigate("/login");
-              setMenuOpen(false);
-            }}
+            onClick={handleLogout}
             className="nb-mobile-cta"
             style={{
               background: '#ef4444',

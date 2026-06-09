@@ -9,14 +9,20 @@ import ClientList from './Pages/ClientList'
 import TasksList from './Pages/TasksList'
 import TeamsLists from './Pages/TeamsLists'
 import Dashboard from './Pages/Dashboard'
+import CustomerDashboard from './Pages/CustomerDashboard'
+import CustomerProfile from './Pages/CustomerProfile'
+import CustomerDocuments from './Pages/CustomerDocuments'
+import CustomerQuotations from './Pages/CustomerQuotations'
+import CustomerSchedule from './Pages/CustomerSchedule'
+import CustomerTasks from './Pages/CustomerTasks'
 import AdvancedDashboard from './Pages/AdvancedDashboard'
 import LandingPage from './Pages/LandingPage'
 import CreateQuotation from './Pages/CreateQuotation'
 import QuotationHistory from './Pages/QuotationHistory'
 import PublicNavbar from './Components/PublicNavbar'
 import Leads from './Pages/Leads'
-import CustomerDashboard from './Pages/CustomerDashboard'
-import AdminLogin from './Pages/AdminLogin'
+
+import Login from './Pages/Login'
 const Layout = ({ children }) => {
   const location = useLocation();
   const isPublic = location.pathname === '/' || location.pathname === '/login';
@@ -105,8 +111,8 @@ function App() {
     <Layout>
       <Routes>
         <Route path='/' element={<LandingPage />} />
-        <Route path='/admin-login' element={<AdminLogin />} />
-        <Route path='/login' element={<AdminLogin />} />
+        <Route path='/admin-login' element={<Navigate to="/login" replace />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/leads' element={<ProtectedRoute><Leads /></ProtectedRoute>} />
         <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path='/advanced-dashboard' element={<ProtectedRoute><AdvancedDashboard /></ProtectedRoute>} />
@@ -119,6 +125,11 @@ function App() {
         <Route path='/quotations/create' element={<ProtectedRoute><CreateQuotation /></ProtectedRoute>} />
         <Route path='/quotations/history' element={<ProtectedRoute><QuotationHistory /></ProtectedRoute>} />
         <Route path='/customer-dashboard' element={<ProtectedRoute><CustomerDashboard /></ProtectedRoute>} />
+        <Route path='/customer/profile' element={<ProtectedRoute><CustomerProfile /></ProtectedRoute>} />
+        <Route path='/customer/documents' element={<ProtectedRoute><CustomerDocuments /></ProtectedRoute>} />
+        <Route path='/customer/quotations' element={<ProtectedRoute><CustomerQuotations /></ProtectedRoute>} />
+        <Route path='/customer/schedule' element={<ProtectedRoute><CustomerSchedule /></ProtectedRoute>} />
+        <Route path='/customer/tasks' element={<ProtectedRoute><CustomerTasks /></ProtectedRoute>} />
       </Routes>
     </Layout>
   );

@@ -19,11 +19,32 @@ export default function ClientList() {
   const fetchClients = async () => {
     try {
       setLoading(true);
-      const res = await api.get(`/clients`);
-      const tk = await api.get(`/tasks`);
+      const token = localStorage.getItem("token");
 
-      setClients(res.data);
-      setTasks(tk.data);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+
+      const res = await api.get("/clients", config);
+      const tk = await api.get("/tasks", config);
+
+      // Ensure we always store arrays
+      const clientData = Array.isArray(res.data?.data)
+        ? res.data.data
+        : Array.isArray(res.data)
+          ? res.data
+          : [];
+
+      const taskData = Array.isArray(tk.data?.data)
+        ? tk.data.data
+        : Array.isArray(tk.data)
+          ? tk.data
+          : [];
+
+      setClients(clientData);
+      setTasks(taskData);
     } catch (err) {
       console.error(err);
       Swal.fire({
@@ -52,7 +73,13 @@ export default function ClientList() {
       });
 
       if (result.isConfirmed) {
-        await api.delete(`/clients/${id}`);
+        const token = localStorage.getItem("token");
+
+        await api.delete(`/clients/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         Swal.fire({
           title: "Deleted entry!",
           icon: "error",
@@ -71,9 +98,19 @@ export default function ClientList() {
 
   const confirmTask = async (id) => {
     try {
-      await api.put(`/tasks/${id}`, {
-        status: "completed",
-      });
+      const token = localStorage.getItem("token");
+
+      await api.put(
+        `/tasks/${id}`,
+        {
+          status: "completed"
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
 
       Swal.fire({
         title: "Task Confirmed!",
@@ -304,14 +341,15 @@ export default function ClientList() {
             </div>
           )}
 
-          {clients.map((c) => (
+          {(Array.isArray(clients) ? clients : []).map((c) => (
             <div key={c._id} className="cl-card">
               {c.image ? (
                 <img src={c.image} alt="solar" className="cl-card-img" />
               ) : (
                 <div className="cl-card-img-placeholder">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" />
+                    <rect x="3" y="3" width="18" height="18" rx="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
                     <polyline points="21 15 16 10 5 21" />
                   </svg>
                 </div>
@@ -428,7 +466,7 @@ export default function ClientList() {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
               </button>
             </div>
-            
+
             <div className="cl-modal-body">
               {selectedJobCard.servicesDone && selectedJobCard.servicesDone.length > 0 && (
                 <div className="cl-modal-section">

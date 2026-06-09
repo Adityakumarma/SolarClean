@@ -12,7 +12,7 @@ export default function CreateQuotation() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [clients, setClients] = useState([]);
-  
+
   // PDF Preview modal state
   const [previewQuotation, setPreviewQuotation] = useState(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
@@ -63,7 +63,7 @@ export default function CreateQuotation() {
       try {
         setLoading(true);
         const res = await getClients();
-        setClients(res.data);
+        setClients(res.data.data || []);
       } catch (err) {
         console.error(err);
         Swal.fire({
@@ -118,7 +118,7 @@ export default function CreateQuotation() {
     const { name, value } = e.target;
     setForm((prev) => {
       const updated = { ...prev, [name]: value };
-      
+
       // Auto-calculate specifications based on Capacity input
       if (name === "capacity") {
         const cap = parseFloat(value) || 0;
@@ -187,7 +187,6 @@ export default function CreateQuotation() {
       registrationFee === ""
     ) {
       Swal.fire({
-        title: "Validation Error",
         text: "Please fill out all fields before proceeding.",
         icon: "warning",
         confirmButtonColor: "#316398"
@@ -210,7 +209,7 @@ export default function CreateQuotation() {
         registrationFee: parseFloat(form.registrationFee),
         totalAmount: parseFloat(form.totalAmount)
       });
-      return res.data; // returns populated quotation details with quotationNo
+      return res.data.data; // returns populated quotation details with quotationNo
     } catch (err) {
       console.error("Save Quotation Error:", err);
       console.log("Detailed Server Error Payload:", err.response?.data);
@@ -227,85 +226,92 @@ export default function CreateQuotation() {
 
   // Button Action: Save Only
   const handleSaveOnly = async () => {
-    const savedDoc = await saveQuotationToDB();
-    if (savedDoc) {
-      Swal.fire({
-        title: "Quotation Saved!",
-        text: `Quotation has been added successfully.`,
-        icon: "success",
-        confirmButtonColor: "#316398"
-      });
-      navigate("/quotations/history");
-    }
+    await saveQuotationToDB();
+
+    Swal.fire({
+      title: "Saved!",
+      text: `Quotation saved successfully!`,
+      icon: "success",
+      confirmButtonColor: "#316398"
+    });
+
+    navigate("/quotations/history");
   };
 
   // Button Action: Generate PDF (opens a blob URL in a new tab)
-  const handleGeneratePDF = async () => {
-    const savedDoc = await saveQuotationToDB();
-    if (savedDoc) {
-      try {
-        setLoading(true);
-        // Generate blob and open in new window
-        const blob = await pdf(<SolarProposalPDF data={savedDoc} logo={blackLogo} />).toBlob();
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank');
-        
-        Swal.fire({
-          title: "PDF Generated!",
-          text: `Quotation ${savedDoc.quotationNo} generated in preview.`,
-          icon: "success",
-          confirmButtonColor: "#316398"
-        });
-        navigate("/quotations/history");
-      } catch (err) {
-        console.error(err);
-        Swal.fire({
-          title: "PDF Error",
-          text: "Failed to compile PDF document.",
-          icon: "error"
-        });
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
+const handleGeneratePDF = async () => {
+  try {
+    setLoading(true);
 
+    const blob = await pdf(
+      <SolarProposalPDF
+        data={form}
+        logo={blackLogo || companyLogo}
+      />
+    ).toBlob();
+
+    const url = URL.createObjectURL(blob);
+
+    window.open(url, "_blank");
+
+  } catch (err) {
+    console.error("PDF Error:", err);
+
+    Swal.fire({
+      title: "PDF Error",
+      text: err.message || "Failed to compile PDF document.",
+      icon: "error"
+    });
+  } finally {
+    setLoading(false);
+  }
+};
   // Button Action: Generate & Download PDF
   const handleDownloadPDF = async () => {
-    const savedDoc = await saveQuotationToDB();
-    if (savedDoc) {
-      try {
-        setLoading(true);
-        // Generate blob and trigger dynamic download link
-        const blob = await pdf(<SolarProposalPDF data={savedDoc} logo={blackLogo} />).toBlob();
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `Solar_Proposal_${savedDoc.quotationNo}.pdf`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+  try {
+    setLoading(true);
 
-        Swal.fire({
-          title: "Downloaded!",
-          text: `Solar proposal PDF successfully downloaded.`,
-          icon: "success",
-          confirmButtonColor: "#316398"
-        });
-        navigate("/quotations/history");
-      } catch (err) {
-        console.error(err);
-        Swal.fire({
-          title: "Download Failed",
-          text: "Could not generate file download.",
-          icon: "error"
-        });
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
+    const blob = await pdf(
+      <SolarProposalPDF
+        data={form}
+        logo={blackLogo || companyLogo}
+      />
+    ).toBlob();
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `Solar_Proposal.pdf`;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+    setLoading(false);
+
+    await Swal.fire({
+      title: "Downloaded!",
+      text: "Solar proposal PDF downloaded successfully.",
+      icon: "success",
+      confirmButtonColor: "#316398"
+    });
+
+
+  } catch (err) {
+    setLoading(false);
+
+    console.error("Download Error:", err);
+
+    Swal.fire({
+      title: "Download Failed",
+      text: err.message || "Could not generate file download.",
+      icon: "error"
+    });
+  }
+};
 
   if (loading && clients.length === 0) {
     return <Loader message="Loading quotation form data..." />;
@@ -890,7 +896,7 @@ export default function CreateQuotation() {
               </svg>
               Save Quotation
             </button>
-            
+
             <button className="q-btn-secondary" onClick={handleGeneratePDF}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
@@ -898,7 +904,7 @@ export default function CreateQuotation() {
               </svg>
               Generate PDF (Preview)
             </button>
-            
+
             <button className="q-btn-primary" onClick={handleDownloadPDF}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />

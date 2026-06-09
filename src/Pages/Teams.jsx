@@ -4,8 +4,6 @@ import { api } from "../services/api";
 import Swal from 'sweetalert2'
 import Loader from "../Components/Loader";
 
-const API = "https://solarcleanbackend.onrender.com/api";
-
 export default function Teams() {
   const navigate = useNavigate();
   const [teams, setTeams] = useState([]);
@@ -22,8 +20,21 @@ export default function Teams() {
   const fetchTeams = async () => {
     try {
       setLoading(true);
-      const res = await api.get('/teams');
-      setTeams(res.data);
+      const token = localStorage.getItem("token");
+
+      const res = await api.get("/teams", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const teamData = Array.isArray(res.data?.data)
+        ? res.data.data
+        : Array.isArray(res.data)
+          ? res.data
+          : [];
+
+      setTeams(teamData);
     } catch (err) {
       console.log(err);
     } finally {
@@ -36,9 +47,24 @@ export default function Teams() {
   }, []);
 
   const createTeam = async () => {
-    if (!teamName) return;
-    try {
-      await api.post('/teams', { name: teamName });
+    if (!teamName.trim()) {
+      Swal.fire({
+        title: "Team name is required",
+        icon: "warning"
+      });
+      return;
+    } try {
+      const token = localStorage.getItem("token");
+
+      await api.post(
+        "/teams",
+        { name: teamName },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
       setTeamName("");
       Swal.fire({
         title: "Team Created Successfully!",
@@ -63,10 +89,28 @@ export default function Teams() {
 
   const addMember = async () => {
     const { name, phone, email, teamId } = member;
-    if (!name || !phone || !email || !teamId) return;
-    try {
-      await api.post(`/teams/${teamId}/member`, { name, phone, email });
+    if (!name || !phone || !email || !teamId) {
       Swal.fire({
+        title: "Please fill all fields",
+        icon: "warning"
+      });
+      return;
+    } try {
+      const token = localStorage.getItem("token");
+
+      await api.post(
+        `/teams/${teamId}/member`,
+        {
+          name,
+          phone,
+          email
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      ); Swal.fire({
         title: "A New Member is Added!",
         icon: "success",
         draggable: true
@@ -221,7 +265,7 @@ export default function Teams() {
             </div>
             <button className="tm-btn-primary" onClick={createTeam}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <path d="M12 5v14M5 12h14"/>
+                <path d="M12 5v14M5 12h14" />
               </svg>
               Create Team
             </button>
@@ -271,17 +315,18 @@ export default function Teams() {
                 onChange={(e) => setMember({ ...member, teamId: e.target.value })}
               >
                 <option value="">Select a team</option>
-                {teams.map((t) => (
-                  <option key={t._id} value={t._id}>{t.name}</option>
-                ))}
+                {Array.isArray(teams) &&
+                  teams.map((t) => (
+                    <option key={t._id} value={t._id}>{t.name}</option>
+                  ))}
               </select>
             </div>
 
             <button className="tm-btn-primary" onClick={addMember}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                <circle cx="9" cy="7" r="4"/>
-                <path d="M19 8v6M22 11h-6"/>
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M19 8v6M22 11h-6" />
               </svg>
               Add Member
             </button>
