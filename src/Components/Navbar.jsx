@@ -304,7 +304,7 @@ export default function Navbar() {
 
       <nav className="nb-root">
         <div className="nb-inner">
-          <Link to="/" className="nb-logo">
+          <Link to="/dashboard" className="nb-logo">
             <img
               src={companyLogo}
               alt="Sunbird Power Solutions"
