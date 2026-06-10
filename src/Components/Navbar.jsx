@@ -124,7 +124,7 @@ export default function Navbar() {
           display: none;
           flex-direction: column;
           padding: 0.5rem 0;
-          min-width: 155px;
+          min-width: auto;
           list-style: none;
           margin: 0;
           z-index: 210;
