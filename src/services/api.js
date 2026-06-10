@@ -36,9 +36,7 @@ API.interceptors.response.use(
 export default API;
 export const api = API;
 
-// ==========================
-// AUTH APIs
-// ==========================
+// authentication API
 
 export const login = (email, password) =>
   API.post("/auth/login", { email, password });
@@ -49,9 +47,7 @@ export const changePassword = (currentPassword, newPassword) =>
     newPassword,
   });
 
-// ==========================
-// TEAM APIs
-// ==========================
+// teams API
 
 export const getTeams = () => API.get("/teams");
 
@@ -61,9 +57,7 @@ export const createTeam = (data) =>
 export const addMember = (id, data) =>
   API.post(`/teams/${id}/member`, data);
 
-// ==========================
-// TASK APIs
-// ==========================
+// tasks API
 
 export const getTasks = () => API.get("/tasks");
 
@@ -79,9 +73,7 @@ export const deleteTask = (id) =>
 export const addJobCard = (id, data) =>
   API.put(`/tasks/${id}/jobcard`, data);
 
-// ==========================
-// CLIENT APIs
-// ==========================
+// Clients API
 
 export const createClient = (formData) =>
   API.post("/clients", formData, {
@@ -106,9 +98,7 @@ export const updateClient = (id, formData) =>
 export const deleteClient = (id) =>
   API.delete(`/clients/${id}`);
 
-// ==========================
-// LEAD APIs
-// ==========================
+// Leads API
 
 export const createLead = (data) =>
   API.post("/leads", data);
@@ -122,9 +112,7 @@ export const updateLead = (id, data) =>
 export const deleteLead = (id) =>
   API.delete(`/leads/${id}`);
 
-// ==========================
-// QUOTATION APIs
-// ==========================
+// Quotation API
 
 export const getQuotations = () =>
   API.get("/quotations");

@@ -320,17 +320,30 @@ export default function Navbar() {
           <ul className="nb-links">
             {role === 'admin' && (
               <>
-                <li>
-                  <Link to="/dashboard" className={`nb-link${isActive('/dashboard') ? " active" : ""}`}>
+                <li className="nb-dropdown-container">
+                   <span className={`nb-link${isSectionActive(['/dashboard', '/advanced-dashboard']) ? " active" : ""}`}>
                     <span className="nb-link-dot"></span>
-                    Dashboard
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/advanced-dashboard" className={`nb-link${isActive('/advanced-dashboard') ? " active" : ""}`}>
-                    <span className="nb-link-dot"></span>
-                    Advanced Dashboard
-                  </Link>
+                    Dashboard Management
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '2px' }}>
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </span>
+
+
+                <ul className="nb-dropdown-menu">
+                    <li>
+                      <Link to="/dashboard" className={`nb-link${isActive('/dashboard') ? " active" : ""}`}>
+                        <span className="nb-link-dot"></span>
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/advanced-dashboard" className={`nb-link${isActive('/advanced-dashboard') ? " active" : ""}`}>
+                        <span className="nb-link-dot"></span>
+                        Advanced Dashboard
+                      </Link>
+                    </li>
+                </ul>
                 </li>
 
                 <li className="nb-dropdown-container">
@@ -400,14 +413,19 @@ export default function Navbar() {
                 </li>
 
                 <li className="nb-dropdown-container">
-                  <span className={`nb-link${isSectionActive(['/quotations/create', '/quotations/history']) ? " active" : ""}`}>
+                  <span className={`nb-link${isSectionActive(['/quotations/create', '/quotations/history','/leads']) ? " active" : ""}`}>
                     <span className="nb-link-dot"></span>
-                    Quotations
+                    Services
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '2px' }}>
                       <polyline points="6 9 12 15 18 9" />
                     </svg>
                   </span>
                   <ul className="nb-dropdown-menu">
+                    <li>
+                      <Link to="/leads" className={`nb-dropdown-item${isActive('/leads') ? " active" : ""}`}>
+                        Leads Enquiry
+                      </Link>
+                    </li>
                     <li>
                       <Link to="/quotations/create" className={`nb-dropdown-item${isActive('/quotations/create') ? " active" : ""}`}>
                         Create Quotation
