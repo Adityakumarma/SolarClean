@@ -13,10 +13,15 @@ export default function CustomerDocuments() {
       try {
         setLoading(true);
         const res = await getClients();
-        if (res.data && res.data.length > 0) {
-          setClient(res.data[0]);
+
+        const clientData =
+          res?.data?.data?.[0] ||
+          null;
+
+        if (clientData) {
+          setClient(clientData);
         } else {
-          setError('Client details not found.');
+          setError("Client details not found.");
         }
       } catch (err) {
         console.error(err);
